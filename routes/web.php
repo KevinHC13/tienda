@@ -3,6 +3,8 @@
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ImagesController;
+use App\Http\Controllers\LoginController;
+use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SubcategoryController;
@@ -23,9 +25,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->name('dashboard');
 
 Route::get('/user/create', [RegisterController::class, 'create'])->name('user.create');
 Route::post('/user', [RegisterController::class, 'store'])->name('user.store');
+Route::get('/user/login', [LoginController::class, 'index'])->name('user.login');
+Route::post('/user/login',[LoginController::class, 'store']);
+
+Route::post('/logout',[LogoutController::class,'store'])->name('logout');
 
 Route::get('/category', [CategoryController::class, 'index'])->name('category.index');
 Route::get('/category/create', [CategoryController::class, 'create'])->name('category.create');
