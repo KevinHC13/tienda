@@ -2,24 +2,25 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Subcategory;
+use App\Models\Brand;
 use Illuminate\Http\Request;
 
-class SubcategoryController extends Controller
+class BrandController extends Controller
 {
     public function create()
     {
-        return view('subcategory.create');
+        return view('brand.create');
     }
 
     public function store(Request $request)
     {
-        Subcategory::create([
+        Brand::create([
             'name' => $request->name,
-            'code' => $request->code,
+            'picture' => $request->picture,
             'description' => $request->description,
-            'category_id' => $request->category_id,
             'user_id' => $request->user_id,
+
         ]);
+        
     }
 }

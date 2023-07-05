@@ -4,10 +4,12 @@ export default {
     "./resources/**/*.blade.php",
     "./resources/**/*.js",
     "./resources/**/*.vue",
+    "./node_modules/tw-elements/dist/js/**/*.js",
+    "./vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php"
   ],
   theme: {
     extend: {},
   },
-  plugins: [],
+  plugins: [require("tw-elements/dist/plugin.cjs")]
 }
 
