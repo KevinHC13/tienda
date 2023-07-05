@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +18,10 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+
+Route::get('/user/create', [RegisterController::class, 'create'])->name('user.create');
+Route::post('/user', [RegisterController::class, 'store'])->name('user.store');
+
+Route::get('/category/create', [CategoryController::class, 'create'])->name('category.create');
+Route::post('/category', [CategoryController::class, 'store'])->name('category.store');
