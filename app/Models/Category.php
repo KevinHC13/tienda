@@ -25,4 +25,9 @@ class Category extends Model
     {
         return $this->belongsTo(User::class);
     }
+
+    public function subcategories()
+    {
+        return $this->hasMany(Subcategory::class);
+    }
 }

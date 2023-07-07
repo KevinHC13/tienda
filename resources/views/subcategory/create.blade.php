@@ -1,64 +1,71 @@
-<div class="md:flex md:items-center">
-    <div class="md:w-1/2 px-10  bg-white rounded-lg shadow-xl mt-10 md:mt-0" >
-        <form action="{{ route('subcategory.store') }}" method="POST" novalidate>
+@extends('layouts.admin')
+
+
+
+@section('content')
+    
+<div class="m-4">
+    <div class="relative flex flex-col min-w-0 mb-4 lg:mb-0 break-words bg-gray-50 dark:bg-gray-800 w-full shadow-lg rounded">
+      <div class="rounded-t mb-0 px-0 border-0">
+        <div class="px-4 py-2">
+          <div class="mt-4 relative w-full max-w-full flex-grow flex-1">
+            <h3 class="ml-6 font-semibold text-base text-gray-900 dark:text-gray-50">Nuevo producto</h3>
+          </div>
+
+        <div class="flex justify-center">
+        <form class="w-1/2 m-9 " action="{{ route('subcategory.store') }}" method="POST" novalidate>
             @csrf
-            <div class="mb-5">
-                <lable for="name" class="mb-2 block uppercase text-gray-500 font-bold">name</lable>
-                <input
-                    id="name"
-                    name="name"
-                    type="text"
-                    placeholder="Titulo de la publicacion"
-                    class="border p-3 w-full rounded-lg"                />
+            <div class="relative z-0 w-full mb-6 group">
+                <input value="{{ old('name') }}" type="text" name="name" id="name" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                <label for="name" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Nombre de Subcategoria</label>
+                @error('name')
+                    <p class="text-red-600 my-2 rounded-lg text-sm p-2 text-center" >{{ $message }}</p>
+                @enderror
             </div>
 
-            <div class="mb-5">
-                <lable for="code" class="mb-2 block uppercase text-gray-500 font-bold">code</lable>
-                <input
-                    id="code"
-                    name="code"
-                    type="text"
-                    placeholder="Titulo de la publicacion"
-                    class="border p-3 w-full rounded-lg"                />
+            <div class="relative z-0 w-full mb-6 group">
+                <input value="{{ old('code') }}" type="text" name="code" id="code" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                <label for="code" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Codigo de categoria</label>
+                @error('code')
+                    <p class="text-red-600 my-2 rounded-lg text-sm p-2 text-center" >{{ $message }}</p>
+                @enderror
             </div>
 
-            <div class="mb-5">
-                <lable for="description" class="mb-2 block uppercase text-gray-500 font-bold">description</lable>
-                <input
-                    id="description"
-                    name="description"
-                    type="text"
-                    placeholder="Titulo de la publicacion"
-                    class="border p-3 w-full rounded-lg"                />
+            <div class="relative z-0 w-full mb-6 group">
+                <input value="{{ old('description') }}" type="text" name="description" id="description" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                <label for="description" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Description</label>
+                @error('description')
+                    <p class="text-red-600 my-2 rounded-lg text-sm p-2 text-center" >{{ $message }}</p>
+                @enderror
             </div>
 
-            <div class="mb-5">
-                <lable for="user_id" class="mb-2 block uppercase text-gray-500 font-bold">user_id</lable>
-                <input
-                    id="user_id"
-                    name="user_id"
-                    type="text"
-                    placeholder="Titulo de la publicacion"
-                    class="border p-3 w-full rounded-lg"                />
+            <div class="relative z-0 w-full mb-6 group">
+                <label for="category_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Categoria</label>
+                <select name="category_id" id="category_id" data-te-select-init data-te-select-filter="true">
+                    @foreach ($categories as $category)
+                    <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
+                        {{ $category->name }}
+                    </option>
+                    @endforeach
+                    
+                  </select>
+                @error('category_id')
+                    <p class="text-red-600 my-2 rounded-lg text-sm p-2 text-center" >{{ $message }}</p>
+                @enderror
             </div>
 
-            <div class="mb-5">
-                <lable for="category_id" class="mb-2 block uppercase text-gray-500 font-bold">category_id</lable>
-                <input
-                    id="category_id"
-                    name="category_id"
-                    type="text"
-                    placeholder="Titulo de la publicacion"
-                    class="border p-3 w-full rounded-lg"                />
-            </div>
 
-            <input
-                type="submit"
-                value="Publicar"
-                class="bg-sky-600  mb-4 hover:bg-sky700 transition-colors cursor-pointer upper
-                 font-bold w-full p-3 text-white rounded-lg"
-            />
+
+            <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Guardar</button>
+        <a type="button" href="{{ route('subcategory.index') }}" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Cancelar</a>
         </form>
     </div>
-
+    </div>
+      </div>
+    </div>
 </div>
+</div>
+
+
+
+@endsection
