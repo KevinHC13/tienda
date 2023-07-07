@@ -73,7 +73,7 @@
             </div>
 
             <div class="relative z-0 w-full mb-6 group">
-                <label for="subcategory_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Seleccione la compañia emisora</label>
+                <label for="subcategory_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Subcategoria</label>
                 <select name="subcategory_id" id="subcategory_id" data-te-select-init data-te-select-filter="true">
                     @foreach ($subcategories as $subcategory)
                     <option value="{{ $subcategory->id }}" @if($product->subcategory_id == $subcategory->id) selected @endif>
@@ -88,7 +88,7 @@
             </div>
 
             <div class="relative z-0 w-full mb-6 group">
-                <label for="brand_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Seleccione la compañia emisora</label>
+                <label for="brand_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Marca</label>
                 <select name="brand_id" id="brand_id" data-te-select-init data-te-select-filter="true">
                     @foreach ($brands as $brand)
                     <option value="{{ $brand->id }}" @if($product->brand_id == $brand->id) selected @endif>
