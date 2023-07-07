@@ -9,6 +9,10 @@ use Illuminate\Support\Facades\File;
 
 class BrandController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     public function index()
     {
         $brands = Brand::paginate(10);
