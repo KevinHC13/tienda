@@ -58,4 +58,16 @@ class User extends Authenticatable
     {
         return $this->hasMany(Category::class);
     }
+
+    
+
+    public function subcategories()
+    {
+        return $this->hasMany(Subcategory::class);
+    }
+
+    public function brands()
+    {
+        return $this->hasMany(Brand::class);
+    }
 }

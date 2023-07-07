@@ -45,11 +45,24 @@ Route::put('/category/{category}', [CategoryController::class, 'update'])->name(
 Route::get('/category/{category}', [CategoryController::class,'show'])->name('category.show');
 
 
+Route::get('/subcategory',[SubcategoryController::class, 'index'])->name('subcategory.index');
 Route::get('/subcategory/create', [SubcategoryController::class, 'create'])->name('subcategory.create');
 Route::post('/subcategory', [SubcategoryController::class, 'store'])->name('subcategory.store');
+Route::delete('/subcategory/{subcategory}',[SubcategoryController::class, 'destroy'])->name('subcategory.destroy');
+Route::get('/subcategory/{subcategory}/edit',[SubcategoryController::class, 'edit'])->name('subcategory.edit');
+Route::put('/subcategory/{subcategory}', [SubcategoryController::class, 'update'])->name('subcategory.update');
+Route::get('/subcategory/{subcategory}', [SubcategoryController::class,'show'])->name('subcategory.show');
 
+
+
+Route::get('/brand',[BrandController::class, 'index'])->name('brand.index');
 Route::get('/brand/create', [BrandController::class, 'create'])->name('brand.create');
 Route::post('/brand', [BrandController::class, 'store'])->name('brand.store');
+Route::delete('/brand/{brand}',[BrandController::class, 'destroy'])->name('brand.destroy');
+Route::get('/brand/{brand}/edit',[BrandController::class, 'edit'])->name('brand.edit');
+Route::put('/brand/{brand}', [BrandController::class, 'update'])->name('brand.update');
+Route::get('/brand/{brand}', [BrandController::class,'show'])->name('brand.show');
+
 
 Route::get('/product',[ProductController::class, 'index'])->name('product.index');
 Route::get('/product/create', [ProductController::class, 'create'])->name('product.create');
@@ -61,3 +74,5 @@ Route::get('/product/{product}', [ProductController::class,'show'])->name('produ
 
 
 Route::post('/imagenes',[ImagesController::class, 'store'])->name('imagenes.store');
+
+
