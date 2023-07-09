@@ -29,6 +29,18 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
 
+Route::get('/ventas', function () {
+    return view('venta.index');
+});
+
+Route::get('/ventas/detalles', function () {
+    return view('venta.show');
+});
+
+Route::get('/devoluciones', function () {
+    return view('devolucion.index');
+});
+
 Route::get('/user/create', [RegisterController::class, 'create'])->name('user.create');
 Route::post('/user', [RegisterController::class, 'store'])->name('user.store');
 Route::get('/user/login', [LoginController::class, 'index'])->name('user.login');
