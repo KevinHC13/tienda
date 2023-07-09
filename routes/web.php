@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-
+ 
 Route::get('/', function () {
     return view('welcome');
 });
@@ -31,15 +31,15 @@ Route::get('/dashboard', function () {
 
 Route::get('/ventas', function () {
     return view('venta.index');
-});
+})->name('venta.index');
 
 Route::get('/ventas/detalles', function () {
     return view('venta.show');
-});
+})->name('venta.show');
 
 Route::get('/devoluciones', function () {
     return view('devolucion.index');
-});
+})->name('devolucion.index');
 
 Route::get('/user/create', [RegisterController::class, 'create'])->name('user.create');
 Route::post('/user', [RegisterController::class, 'store'])->name('user.store');
