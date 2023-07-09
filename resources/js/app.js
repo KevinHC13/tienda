@@ -1,8 +1,8 @@
 import './bootstrap';
 
 // Initialization for ES Users
-import { Select, initTE } from "tw-elements";
-initTE({ Select });
+import { Select, Dropdown, Ripple, ScrollSpy, initTE } from "tw-elements";
+initTE({ Select, Dropdown, Ripple, ScrollSpy });
 
 import Dropzone from "dropzone";
 
