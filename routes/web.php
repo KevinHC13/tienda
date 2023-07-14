@@ -6,6 +6,7 @@ use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SubcategoryController;
 use Illuminate\Support\Facades\Route;
@@ -83,6 +84,14 @@ Route::delete('/product/{product}',[ProductController::class, 'destroy'])->name(
 Route::get('/product/{product}/edit',[ProductController::class, 'edit'])->name('product.edit');
 Route::put('/product/{product}', [ProductController::class, 'update'])->name('product.update');
 Route::get('/product/{product}', [ProductController::class,'show'])->name('product.show');
+
+Route::get('/provider', [ProviderController::class,'index'])->name('provider.index');
+Route::get('/provider/create', [ProviderController::class, 'create'])->name('provider.create');
+Route::post('/provider', [ProviderController::class, 'store'])->name('provider.store');
+Route::delete('/provider/{provider}',[ProviderController::class, 'destroy'])->name('provider.destroy');
+Route::get('/provider/{provider}/edit',[ProviderController::class, 'edit'])->name('provider.edit');
+Route::put('/provider/{provider}', [ProviderController::class, 'update'])->name('provider.update');
+Route::get('/provider/{provider}', [ProviderController::class,'show'])->name('provider.show');
 
 
 Route::post('/imagenes',[ImagesController::class, 'store'])->name('imagenes.store');
