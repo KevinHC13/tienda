@@ -7,11 +7,8 @@ use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\ProductController;
-<<<<<<< HEAD
 use App\Http\Controllers\ProviderController;
-=======
 use App\Http\Controllers\CategoryController;
->>>>>>> fcb3e9edfc6ee033f41c56cda349a1416f5211bf
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SubcategoryController;
 use Yajra\DataTables\Html\Editor\Editor;
