@@ -283,12 +283,27 @@
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                   <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
                 </svg>
-                
-                
               </span>
               <span class="ml-2 text-sm tracking-wide truncate">Devoluciones</span>
             </a>
           </li>
+
+          <li>
+            <a href="{{ route('client.index') }}" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6">
+              <span class="inline-flex justify-center items-center ml-4">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-8 h-8">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                  <path d="M10 13a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"></path>
+                  <path d="M8 21v-1a2 2 0 0 1 2 -2h4a2 2 0 0 1 2 2v1"></path>
+                  <path d="M15 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"></path>
+                  <path d="M17 10h2a2 2 0 0 1 2 2v1"></path>
+                  <path d="M5 5a2 2 0 1 0 4 0a2 2 0 0 0 -4 0"></path>
+                  <path d="M3 13v-1a2 2 0 0 1 2 -2h2"></path>                </svg>
+              </span>
+              <span class="ml-2 text-sm tracking-wide truncate">Clientes</span>
+            </a>
+          </li>
+
           <li class="px-5 hidden md:block">
             <div class="flex flex-row items-center mt-5 h-8">
               <div class="text-sm font-light tracking-wide text-gray-400 uppercase">Settings</div>

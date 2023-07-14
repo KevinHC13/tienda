@@ -1,14 +1,16 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BrandController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SubcategoryController;
-use Illuminate\Support\Facades\Route;
+use Yajra\DataTables\Html\Editor\Editor;
 
 /*
 |--------------------------------------------------------------------------
@@ -84,7 +86,14 @@ Route::get('/product/{product}/edit',[ProductController::class, 'edit'])->name('
 Route::put('/product/{product}', [ProductController::class, 'update'])->name('product.update');
 Route::get('/product/{product}', [ProductController::class,'show'])->name('product.show');
 
+//Rutas Clientes
+Route::get('/client',[ClientController::class,'index'])->name('client.index');
+Route::get('/client/create',[ClientController::class,'create'])->name('client.create');
+Route::post('/client',[ClientController::class,'store'])->name('client.store');
+Route::delete('/client/{client}',[ClientController::class,'destroy'])->name('client.destroy');
+Route::get('/client/{client}/edit',[ClientController::class,'edit'])->name('client.edit');
+Route::put('/client/{client}',[ClientController::class,'update'])->name('client.update');
+Route::get('/client/{client}',[ClientController::class,'show'])->name('client.show');
 
 Route::post('/imagenes',[ImagesController::class, 'store'])->name('imagenes.store');
-
 
