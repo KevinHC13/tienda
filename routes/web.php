@@ -1,15 +1,20 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\BrandController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\ProductController;
+<<<<<<< HEAD
 use App\Http\Controllers\ProviderController;
+=======
+use App\Http\Controllers\CategoryController;
+>>>>>>> fcb3e9edfc6ee033f41c56cda349a1416f5211bf
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SubcategoryController;
-use Illuminate\Support\Facades\Route;
+use Yajra\DataTables\Html\Editor\Editor;
 
 /*
 |--------------------------------------------------------------------------
@@ -85,6 +90,7 @@ Route::get('/product/{product}/edit',[ProductController::class, 'edit'])->name('
 Route::put('/product/{product}', [ProductController::class, 'update'])->name('product.update');
 Route::get('/product/{product}', [ProductController::class,'show'])->name('product.show');
 
+
 Route::get('/provider', [ProviderController::class,'index'])->name('provider.index');
 Route::get('/provider/create', [ProviderController::class, 'create'])->name('provider.create');
 Route::post('/provider', [ProviderController::class, 'store'])->name('provider.store');
@@ -93,7 +99,14 @@ Route::get('/provider/{provider}/edit',[ProviderController::class, 'edit'])->nam
 Route::put('/provider/{provider}', [ProviderController::class, 'update'])->name('provider.update');
 Route::get('/provider/{provider}', [ProviderController::class,'show'])->name('provider.show');
 
+//Rutas Clientes
+Route::get('/client',[ClientController::class,'index'])->name('client.index');
+Route::get('/client/create',[ClientController::class,'create'])->name('client.create');
+Route::post('/client',[ClientController::class,'store'])->name('client.store');
+Route::delete('/client/{client}',[ClientController::class,'destroy'])->name('client.destroy');
+Route::get('/client/{client}/edit',[ClientController::class,'edit'])->name('client.edit');
+Route::put('/client/{client}',[ClientController::class,'update'])->name('client.update');
+Route::get('/client/{client}',[ClientController::class,'show'])->name('client.show');
 
 Route::post('/imagenes',[ImagesController::class, 'store'])->name('imagenes.store');
-
 
