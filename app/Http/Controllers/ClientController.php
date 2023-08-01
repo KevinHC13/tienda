@@ -33,10 +33,10 @@ class ClientController extends Controller
     {
         $this->validate($request,[
             'name'=>'required|max:255',
-            'codigo'=>'required|numeric|min:0',
+            'codigo'=>'required|numeric|min:0|',
             'empresa'=>'required|max:255',
-            'telefono'=>'required|numeric',
-            'email'=>'required|max:255',
+            'telefono'=>'required|numeric|',
+            'email'=>'required|max:255|',
             'picture'=>'required'
             
         ]);

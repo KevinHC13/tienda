@@ -8,6 +8,7 @@ use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProvedorController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SubcategoryController;
 use Yajra\DataTables\Html\Editor\Editor;
@@ -94,6 +95,19 @@ Route::delete('/client/{client}',[ClientController::class,'destroy'])->name('cli
 Route::get('/client/{client}/edit',[ClientController::class,'edit'])->name('client.edit');
 Route::put('/client/{client}',[ClientController::class,'update'])->name('client.update');
 Route::get('/client/{client}',[ClientController::class,'show'])->name('client.show');
+
+
+//Rutas provedores
+Route::get('/provedor',[ProvedorController::class,'index'])->name('provedor.index');
+Route::get('/provedor/create',[ProvedorController::class,'create'])->name('provedor.create');
+Route::post('/provedor',[ProvedorController::class,'store'])->name('provedor.store');
+Route::delete('/provedor/{provedor}',[ProvedorController::class,'destroy'])->name('provedor.destroy');
+Route::get('/provedor/{provedor}/edit',[ProvedorController::class,'edit'])->name('provedor.edit');
+Route::put('/provedor/{provedor}',[ProvedorController::class,'update'])->name('provedor.update');
+Route::get('/provedor/{provedor}',[ProvedorController::class,'show'])->name('provedor.show');
+
+
+
 
 Route::post('/imagenes',[ImagesController::class, 'store'])->name('imagenes.store');
 

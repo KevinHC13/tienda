@@ -304,6 +304,21 @@
             </a>
           </li>
 
+          <li>
+            <a href="{{ route('provedor.index') }}" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6">
+              <span class="inline-flex justify-center items-center ml-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-truck-delivery" width="31" height="31" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                  <path d="M7 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                  <path d="M17 17m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                  <path d="M5 17h-2v-4m-1 -8h11v12m-4 0h6m4 0h2v-6h-8m0 -5h5l3 5"></path>
+                  <path d="M3 9l4 0"></path>
+               </svg>
+              </span>
+              <span class="ml-2 text-sm tracking-wide truncate">Provedores</span>
+            </a>
+          </li>
+
           <li class="px-5 hidden md:block">
             <div class="flex flex-row items-center mt-5 h-8">
               <div class="text-sm font-light tracking-wide text-gray-400 uppercase">Settings</div>
