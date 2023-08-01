@@ -70,4 +70,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(Brand::class);
     }
+
+    public function providers()
+    {
+        return $this->hasMany(Provider::class);
+    }
 }
