@@ -70,6 +70,24 @@
                     <p class="text-red-600 my-2 rounded-lg text-sm p-2 text-center" >{{ $message }}</p>
                 @enderror
             </div>
+            <script>
+                
+                select = document.getElementById('category_id');
+                selected = select.value;
+                select.addEventListener('change', () => {
+                    selected = select.value;
+                });
+
+                
+                {{
+                    
+                    foreach($categories as $category){
+                    if( $category->id == selected ){
+                        $category[selected];
+                    } 
+                } }}
+                
+            </script>
 
             <div class="relative z-0 w-full mb-6 group">
                 <label for="subcategory_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Seleccione la compañia emisora</label>

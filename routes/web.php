@@ -11,6 +11,7 @@ use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProvedorController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\SalesController;
 use App\Http\Controllers\SubcategoryController;
 use Yajra\DataTables\Html\Editor\Editor;
 
@@ -32,10 +33,6 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
-
-Route::get('/ventas', function () {
-    return view('venta.index');
-})->name('venta.index');
 
 Route::get('/ventas/detalles', function () {
     return view('venta.show');
@@ -116,7 +113,9 @@ Route::get('/provedor/{provedor}/edit',[ProvedorController::class,'edit'])->name
 Route::put('/provedor/{provedor}',[ProvedorController::class,'update'])->name('provedor.update');
 Route::get('/provedor/{provedor}',[ProvedorController::class,'show'])->name('provedor.show');
 
-
+//Rutas provedores
+Route::get('/sale',[SalesController::class,'index'])->name('sale.index');
+Route::get('/sale/create',[SalesController::class,'create'])->name('sale.create');
 
 
 Route::post('/imagenes',[ImagesController::class, 'store'])->name('imagenes.store');
