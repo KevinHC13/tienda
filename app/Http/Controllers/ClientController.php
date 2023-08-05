@@ -33,10 +33,13 @@ class ClientController extends Controller
     {
         $this->validate($request,[
             'name'=>'required|max:255',
-            'codigo'=>'required|numeric|min:0|',
+            'codigo'=>'required|numeric|min:0|unique:clients',
             'empresa'=>'required|max:255',
-            'telefono'=>'required|numeric|',
-            'email'=>'required|max:255|',
+            'telefono'=>'required|numeric|unique:clients',
+            'email'=>'required|max:255|unique:clients',
+            'pais'=>'required|max:255|',
+            'ciudad'=>'required|max:255|',
+            'direccion'=>'required|max:255|',
             'picture'=>'required'
             
         ]);
@@ -48,6 +51,9 @@ class ClientController extends Controller
             'empresa' => $request -> empresa,
             'telefono' => $request -> telefono,
             'email' => $request -> email,
+            'pais' => $request -> pais,
+            'ciudad' => $request -> ciudad,
+            'direccion' => $request -> direccion,
         ]);
 
         return redirect()->route('client.index');
@@ -78,10 +84,13 @@ class ClientController extends Controller
     {
         $this->validate($request,[
             'name'=>'required|max:255',
-            'codigo'=>'required|numeric|min:0',
+            'codigo'=>'required|numeric|min:0|',
             'empresa'=>'required|max:255',
-            'telefono'=>'required|numeric',
+            'telefono'=>'required|numeric|',
             'email'=>'required|max:255',
+            'pais'=>'required|max:255',
+            'ciudad'=>'required|max:255',
+            'direccion'=>'required|max:255',
             'picture'=>'required'
         ]);
 
@@ -91,6 +100,9 @@ class ClientController extends Controller
         $client->telefono=$request->telefono;
         $client->email =$request->email;
         $client->picture=$request->picture;
+        $client->pais=$request->pais;
+        $client->ciudad=$request->ciudad;
+        $client->direccion=$request->direccion;
 
         $client->save();
         return redirect()->route('client.index');
