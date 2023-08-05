@@ -28,6 +28,7 @@
                 <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Foto</th>
                 <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Nombre</th>
                 <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Codigo</th>
+                <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">pais</th>
                 <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Empresa</th>
                 <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Telefono</th>
                 <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Email</th>
@@ -41,6 +42,7 @@
                   <td class="py-4 px-6 border-b border-grey-light"><img class="w-1/5 inline mr-5" src="{{ asset('uploads/'. $client->picture ) }}" alt="Imagen de perfil Cliente"> </td>
                   <td class="py-4 px-6 border-b border-grey-light">{{$client->name}}</td>
                   <td class="py-4 px-6 border-b border-grey-light">{{$client->codigo}}</td>
+                  <td class="py-4 px-6 border-b border-grey-light">{{$client->pais}}</td>
                   <td class="py-4 px-6 border-b border-grey-light">{{$client->empresa}}</td>
                   <td class="py-4 px-6 border-b border-grey-light">{{$client->telefono}}</td>
                   <td class="py-4 px-6 border-b border-grey-light">{{$client->email}}</td>

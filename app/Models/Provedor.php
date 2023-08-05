@@ -13,6 +13,10 @@ class Provedor extends Model
       'codigo',
       'telefono',
       'email',
-      'picture'  
+      'picture',
+      'ciudad',
+      'direccion',
+      'pais'
+
     ];
 }

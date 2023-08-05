@@ -1,17 +1,18 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Yajra\DataTables\Html\Editor\Editor;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\UsarioController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProvedorController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SubcategoryController;
-use Yajra\DataTables\Html\Editor\Editor;
 
 /*
 |--------------------------------------------------------------------------
@@ -105,6 +106,15 @@ Route::delete('/provedor/{provedor}',[ProvedorController::class,'destroy'])->nam
 Route::get('/provedor/{provedor}/edit',[ProvedorController::class,'edit'])->name('provedor.edit');
 Route::put('/provedor/{provedor}',[ProvedorController::class,'update'])->name('provedor.update');
 Route::get('/provedor/{provedor}',[ProvedorController::class,'show'])->name('provedor.show');
+
+//Rutas Usuarios
+Route::get('/usario',[UsarioController::class,'index'])->name('usario.index');
+Route::get('/usario/create',[UsarioController::class,'create'])->name('usario.create');
+Route::post('/usario',[UsarioController::class,'store'])->name('usario.store');
+Route::delete('/usario/{usario}',[UsarioController::class,'destroy'])->name('usario.destroy');
+Route::get('/usario/{usario}/edit',[UsarioController::class,'edit'])->name('usario.edit');
+Route::put('/usario/{usario}',[UsarioController::class,'update'])->name('usario.update');
+Route::get('/usario/{usario}',[UsarioController::class,'show'])->name('usario.show');
 
 
 

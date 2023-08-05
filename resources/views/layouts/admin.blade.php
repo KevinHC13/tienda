@@ -319,6 +319,22 @@
             </a>
           </li>
 
+          
+          <li>
+            <a href="{{ route('usario.index') }}" class="relative flex flex-row items-center h-11 focus:outline-none hover:bg-blue-800 dark:hover:bg-gray-600 text-white-600 hover:text-white-800 border-l-4 border-transparent hover:border-blue-500 dark:hover:border-gray-800 pr-6">
+              <span class="inline-flex justify-center items-center ml-4">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-users" width="31" height="31" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                  <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"></path>
+                  <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                  <path d="M21 21v-2a4 4 0 0 0 -3 -3.85"></path>
+               </svg>
+              </span>
+              <span class="ml-2 text-sm tracking-wide truncate">Usuarios</span>
+            </a>
+          </li>
+
           <li class="px-5 hidden md:block">
             <div class="flex flex-row items-center mt-5 h-8">
               <div class="text-sm font-light tracking-wide text-gray-400 uppercase">Settings</div>
