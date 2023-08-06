@@ -15,7 +15,7 @@
           </div>
 
           <div class="flex justify-center">
-            <div class="w-1/3 flex mt-11 mb-11">
+            <div class="w-1/3 flex mt-11 mb-11 h-max">
                 <form action="{{ route('imagenes.store') }}" method="POST" enctype="multipart/form-data" class="dropzone border rounded w-full -h-1/2 text-black" id="dropzone">
                     @csrf
                 </form>

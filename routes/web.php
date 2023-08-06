@@ -12,9 +12,11 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProvedorController;
+use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\RegisterController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\SubcategoryController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -114,19 +116,28 @@ Route::get('/provedor/{provedor}/edit',[ProvedorController::class,'edit'])->name
 Route::put('/provedor/{provedor}',[ProvedorController::class,'update'])->name('provedor.update');
 Route::get('/provedor/{provedor}',[ProvedorController::class,'show'])->name('provedor.show');
 
+//Rutas usuarios
+Route::get('/user',[UserController::class,'index'])->name('user.index');
+Route::get('/user/create',[UserController::class,'create'])->name('user.create');
+Route::post('/user',[UserController::class,'store'])->name('user.store');
+Route::delete('/user/{user}',[UserController::class,'destroy'])->name('user.destroy');
+Route::get('/user/{user}/edit',[UserController::class,'edit'])->name('user.edit');
+Route::put('/user/{user}',[UserController::class,'update'])->name('user.update');
+Route::get('/user/{user}',[UserController::class,'show'])->name('user.show');
 
-//Rutas provedores
+//Rutas usuarios
+Route::get('/purchase',[PurchaseController::class,'index'])->name('purchase.index');
+Route::get('/purchase/create',[PurchaseController::class,'create'])->name('purchase.create');
+Route::post('/purchase',[PurchaseController::class,'store'])->name('purchase.store');
+Route::delete('/purchase/{purchase}',[PurchaseController::class,'destroy'])->name('purchase.destroy');
+Route::get('/purchase/{purchase}/edit',[PurchaseController::class,'edit'])->name('purchase.edit');
+Route::put('/purchase/{purchase}',[PurchaseController::class,'update'])->name('purchase.update');
+Route::get('/purchase/{purchase}',[PurchaseController::class,'show'])->name('purchase.show');
+
+
+//Rutas ventas
 Route::get('/sale',[SalesController::class,'index'])->name('sale.index');
 Route::get('/sale/create',[SalesController::class,'create'])->name('sale.create');
-
-//Rutas Usuarios
-Route::get('/usario',[UsarioController::class,'index'])->name('usario.index');
-Route::get('/usario/create',[UsarioController::class,'create'])->name('usario.create');
-Route::post('/usario',[UsarioController::class,'store'])->name('usario.store');
-Route::delete('/usario/{usario}',[UsarioController::class,'destroy'])->name('usario.destroy');
-Route::get('/usario/{usario}/edit',[UsarioController::class,'edit'])->name('usario.edit');
-Route::put('/usario/{usario}',[UsarioController::class,'update'])->name('usario.update');
-Route::get('/usario/{usario}',[UsarioController::class,'show'])->name('usario.show');
 
 
 Route::post('/imagenes',[ImagesController::class, 'store'])->name('imagenes.store');

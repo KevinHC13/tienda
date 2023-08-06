@@ -11,15 +11,16 @@
       <div class="rounded-t mb-0 px-0 border-0">
         <div class="px-4 py-2">
           <div class="mt-4 relative w-full max-w-full flex-grow flex-1">
-            <h3 class="ml-6 font-semibold text-base text-gray-900 dark:text-gray-50">Nuevo producto</h3>
+            <h3 class="ml-6 font-semibold text-base text-gray-900 dark:text-gray-50">Nuevo Cliente</h3>
           </div>
 
           <div class="flex justify-center">
-            <div class="w-1/3 flex mt-11 mb-11">
+            <div class="w-1/3 flex mt-11 mb-11 h-max">
                 <form action="{{ route('imagenes.store') }}" method="POST" enctype="multipart/form-data" class="dropzone border rounded w-full -h-1/2 text-black" id="dropzone">
                     @csrf
                 </form>
             </div>
+            
         <form class="w-1/2 m-9 " action="{{ route('client.store') }}" method="POST" novalidate>
             @csrf
             <div class="relative z-0 w-full mb-6 group">

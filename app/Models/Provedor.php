@@ -19,4 +19,9 @@ class Provedor extends Model
       'pais'
 
     ];
+
+    public function purchas()
+    {
+      return $this->hasMany(Provedor::class);
+    }
 }
