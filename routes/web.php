@@ -45,8 +45,8 @@ Route::get('/devoluciones', function () {
     return view('devolucion.index');
 })->name('devolucion.index');
 
-Route::get('/user/create', [RegisterController::class, 'create'])->name('user.create');
-Route::post('/user', [RegisterController::class, 'store'])->name('user.store');
+Route::get('/register', [RegisterController::class, 'create']);
+Route::post('/register', [RegisterController::class, 'store']);
 Route::get('/user/login', [LoginController::class, 'index'])->name('user.login');
 Route::post('/user/login',[LoginController::class, 'store']);
 
