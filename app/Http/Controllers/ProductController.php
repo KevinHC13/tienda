@@ -19,6 +19,7 @@ class ProductController extends Controller
     }
     public function index()
     {
+        //obtiene todos los productos
         $products = Product::paginate(10);
 
         return view('product.index',[
@@ -31,7 +32,7 @@ class ProductController extends Controller
         $categories = Category::all();
         $subcategories = Subcategory::all();
         $brands = Brand::all();
- 
+        //devuelve  la vista product.create
         return view('product.create',[
             'categories' => $categories,
             'subcategories' => $subcategories,
@@ -41,6 +42,7 @@ class ProductController extends Controller
 
     public function store(Request $request)
     {
+        //valida los datos enviados por el usuario
         $this->validate($request, [
             'name' => 'required|max:255',
             'purchase_price' => 'required|numeric|min:0',
@@ -53,7 +55,7 @@ class ProductController extends Controller
         ]);
         
 
-
+        //crea un nuevo producto con los datos enviados por el usuario
         Product::create([
             'picture' => $request->picture,
             'name' => $request->name,
@@ -66,11 +68,12 @@ class ProductController extends Controller
             'brand_id' => $request->brand_id,
             
         ]);
-
+        //redirige al usuario a la pagina de listado de productos
         return redirect()->route('product.index');
     }
 
     public function show(Product $product){
+        //devuelve la vista de product.show
         return view('product.show',[
             'product' => $product
         ]);
@@ -78,14 +81,15 @@ class ProductController extends Controller
 
     public function destroy(Product $product)
     {
+        //elimina el producto
         $product->delete();
-
+        //elimina la imagen de producto
         $imagen_path = public_path('uploads/' . $product->picture);
 
         if(File::exists($imagen_path)){
             unlink($imagen_path);
         }
-
+        //redirige al usuario a la pagina de listado de productos
         return redirect()->route('product.index');
     }
 
@@ -94,7 +98,7 @@ class ProductController extends Controller
         $categories = Category::all();
         $subcategories = Subcategory::all();
         $brands = Brand::all();
- 
+        //devuelve la vista del product.edit
         return view('product.edit',[
             'categories' => $categories,
             'subcategories' => $subcategories,
@@ -106,6 +110,7 @@ class ProductController extends Controller
 
     public function update(Request $request, Product $product)
     {
+        //valida los datos enviados por el usuario
         $this->validate($request, [
             'name' => 'required|max:255',
             'purchase_price' => 'required|numeric|min:0',
@@ -116,7 +121,7 @@ class ProductController extends Controller
             'brand_id' => 'required',
             'picture' => 'required'
         ]);
-        
+        //actualiza el producto con los datos enviados por el usuario
         $product->picture = $request->picture;
         $product->name = $request->name;
         $product->purchase_price = $request->purchase_price;
@@ -126,9 +131,9 @@ class ProductController extends Controller
         $product->category_id = $request->category_id;
         $product->subcategory_id = $request->subcategory_id;
         $product->brand_id = $request->brand_id;
-
+        //guarda los cambios
         $product->save();
-
+        //devuelve la vista de product.show
         return redirect()->route('product.index');
 
     }

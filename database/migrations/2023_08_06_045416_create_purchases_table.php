@@ -14,6 +14,9 @@ return new class extends Migration
         Schema::create('purchases', function (Blueprint $table) {
             $table->id();
             $table->foreignId('provedor_id')->constrained()->onDelete('cascade');
+            $table->foreignId('product_name')->constrained()->onDelete('cascade');
+            $table->foreignId('product_code')->constrained()->onDelete('cascade');
+
             $table->string('code');
             $table->string('estatus');
             $table->integer('tota');

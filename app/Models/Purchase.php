@@ -11,6 +11,9 @@ class Purchase extends Model
 
     protected $fillable = [
         'provedor_id',
+        'product_name',
+        'product_code',
+
         'code',
         'estatus',
         'tota',
@@ -22,5 +25,9 @@ class Purchase extends Model
     public function provedor()
     {
         return    $this->belongsTo(Provedor::class);
+    }
+    public function product()
+    {
+        return    $this->belongsTo(Product::class);
     }
 }

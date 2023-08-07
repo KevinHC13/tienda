@@ -26,11 +26,13 @@ class ClientController extends Controller
 
     public function create()
     {
+        // Devuelve la vista 
         return view('clientes.create');
     }
 
     public function store(Request $request)
     {
+        // Valida los datos enviados por el usuario
         $this->validate($request,[
             'name'=>'required|max:255',
             'codigo'=>'required|numeric|min:0|unique:clients',
@@ -43,7 +45,7 @@ class ClientController extends Controller
             'picture'=>'required'
             
         ]);
-
+        // Crea un nuevo cliente con los datos enviados por el usuario
         Client::create([
             'picture' => $request->picture,
             'name' => $request -> name,
@@ -55,26 +57,28 @@ class ClientController extends Controller
             'ciudad' => $request -> ciudad,
             'direccion' => $request -> direccion,
         ]);
-
+        // Redirige al usuario a la página de listado de clientes
         return redirect()->route('client.index');
 
     }
-
+    //
     public function destroy(Client $client)
     {
+        // Elimina el cliente
         $client->delete();
-        
+        //elimina la imagen del cliente
         $imagen_path= public_path('uploads/'.$client->picture);
 
         if(File::exists($imagen_path)){
             unlink($imagen_path);
         }
-        
+        // Redirige al usuario a la página de listado de clientes
         return redirect()->route('client.index');
     }
 
     public function edit(Client $client)
     {
+        // Devuelve lq vista clientes edit con el cliente
         return view('clientes.edit',[
             'client' => $client
         ]);
@@ -82,6 +86,7 @@ class ClientController extends Controller
 
     public function update(Request $request, Client $client)
     {
+        // Valida los datos enviados por el usuario
         $this->validate($request,[
             'name'=>'required|max:255',
             'codigo'=>'required|numeric|min:0|',
@@ -93,7 +98,7 @@ class ClientController extends Controller
             'direccion'=>'required|max:255',
             'picture'=>'required'
         ]);
-
+        // Actualiza el cliente con los datos enviados por el usuario
         $client->name = $request->name;
         $client->codigo=$request->codigo;
         $client->empresa=$request->empresa;
@@ -103,7 +108,7 @@ class ClientController extends Controller
         $client->pais=$request->pais;
         $client->ciudad=$request->ciudad;
         $client->direccion=$request->direccion;
-
+        //guarda los cambios realizados en la tabla de cliente
         $client->save();
         return redirect()->route('client.index');
 
@@ -111,6 +116,7 @@ class ClientController extends Controller
 
     public function show(Client $client)
     {
+        //devuelve la vista clientes.show con el cliente
         return view('clientes.show',[
             'client' => $client
         ]);

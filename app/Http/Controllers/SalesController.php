@@ -13,8 +13,9 @@ class SalesController extends Controller
     }
     public function index()
     {
+        //obtiene todos las ventas
         $sales = Sales::paginate(10);
-
+    
         return view('sale.index',[
             'sales' => $sales
         ]);
@@ -22,6 +23,7 @@ class SalesController extends Controller
 
     public function create()
     {
+        //devuelve la vista sale.create
         return view('sale.create');
     }
 
