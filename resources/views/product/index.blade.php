@@ -44,7 +44,7 @@
                   <td class="py-4 px-6 border-b border-grey-light">{{ $product->sale_price }}</td>
                   <td class="py-4 px-6 border-b border-grey-light">{{ $product->stock }}</td>
                   <td class="py-4 px-6 border-b border-grey-light">{{ $product->category->name }}</td>
-                  <td class="py-4 px-6 border-b border-grey-light">{{ $product->subcategory->name }}</td>
+                  <td class="py-4 px-6 border-b border-grey-light">{{ $product->subcategory->name ?? "" }}</td>
                   <td class="py-4 px-6 border-b border-grey-light">{{ $product->brand->name }}</td>
                   <td class="py-4 px-6 border-b border-grey-light">{{ $product->user->username }}</td>
                   <td class="py-4 px-6 border-b border-grey-light">

@@ -2,6 +2,8 @@
 
 @push('styles')
     <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
 @endpush
 
 @section('content')
@@ -46,8 +48,6 @@
                 @enderror
             </div>
 
-
-
             <div class="relative z-0 w-full mb-6 group">
                 <input value="{{ old('stock') }}" type="number" name="stock" id="stock" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
                 <label for="stock" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Stock</label>
@@ -60,22 +60,19 @@
                 <label for="category_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Categoria</label>
                 <select name="category_id" id="category_id" data-te-select-init data-te-select-filter="true">
                     @foreach ($categories as $category)
-                    <option value="{{ $category->id }}" {{ old('category_id') == $category->id ? 'selected' : '' }}>
-                        {{ $category->name }}
-                    </option>
+                        <option value="{{ $category->id }}">{{ $category->name }}</option>
                     @endforeach
-                    
-                  </select>
+                </select>
                 @error('category_id')
-                    <p class="text-red-600 my-2 rounded-lg text-sm p-2 text-center" >{{ $message }}</p>
+                    <p class="text-red-600 my-2 rounded-lg text-sm p-2 text-center">{{ $message }}</p>
                 @enderror
             </div>
-
-
+            
             <div class="relative z-0 w-full mb-6 group">
                 <label for="subcategory_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Subcategoria</label>
-                <select name="subcategory_id" id="subcategory_id" data-te-select-init data-te-select-filter="true">
-                    @foreach ($subcategories as $subcategory)
+                <select name="subcategory_id" id="subcategory_id" data-te-select-init data-te-select-filter="true" data-te-select-clear-button="true">
+			<option value="" hidden selected></option>                    
+			@foreach ($subcategories as $subcategory)
                     <option value="{{ $subcategory->id }}" {{ old('subcategory_id') == $subcategory->id ? 'selected' : '' }}>
                         {{ $subcategory->name }}
                     </option>
@@ -83,7 +80,7 @@
                     
                   </select>
                 @error('subcategory_id')
-                    <p class="text-red-600 my-2 rounded-lg text-sm p-2 text-center" >{{ $message }}</p>
+                    <p class="text-red-600 my-2 rounded-lg text-sm p-2 text-center">{{ $message }}</p>
                 @enderror
             </div>
 
@@ -118,6 +115,39 @@
     </div>
 </div>
 </div>
+
+
+<script>
+    $(document).ready(function() {
+        $('#category_id').change(function() {
+            var categoryId = $(this).val();
+            var subcategorySelect = $('#subcategory_id');
+            
+            $.ajax({
+                url: '/product/subcategory/' + categoryId, // Ruta a tu controlador para obtener subcategorías
+                type: 'GET',
+                success: function(response) {
+                    subcategorySelect.empty();
+                    subcategorySelect.append($('<option>', {
+                        value: '',
+                        text: ''
+                    }));
+                    
+                    $.each(response.subcategories, function(key, value) {
+                        subcategorySelect.append($('<option>', {
+                            value: key,
+                            text: value
+                        }));
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+
+
+
 
 
 
