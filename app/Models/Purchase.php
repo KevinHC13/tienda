@@ -11,11 +11,8 @@ class Purchase extends Model
 
     protected $fillable = [
         'provedor_id',
-        'product_name',
-        'product_code',
-
-        'code',
         'estatus',
+        'code',
         'tota',
         'pagado',
         'pendiente',

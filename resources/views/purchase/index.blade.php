@@ -43,7 +43,7 @@
                 <tr class="hover:bg-grey-lighter">
                   <td class="py-4 px-6 border-b border-grey-light">{{$purchase->provedor->name}}</td>
                   <td class="py-4 px-6 border-b border-grey-light">{{$purchase->code}}</td>
-                  <td class="py-4 px-6 border-b border-grey-light">{{$purchase->crated_at}}</td>
+                  <td class="py-4 px-6 border-b border-grey-light">{{$purchase->created_at->format('Y-m-d')}}</td>
                   <td class="py-4 px-6 border-b border-grey-light">{{$purchase->estatus}}</td>
                   <td class="py-4 px-6 border-b border-grey-light">{{$purchase->tota}}</td>
                   <td class="py-4 px-6 border-b border-grey-light">{{$purchase->pagado}}</td>

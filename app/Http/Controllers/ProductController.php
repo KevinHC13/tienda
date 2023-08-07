@@ -11,6 +11,7 @@ use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\File;
 
 
+
 class ProductController extends Controller
 {
     public function __construct()
@@ -49,7 +50,6 @@ class ProductController extends Controller
             'sale_price' => 'required|numeric|min:0',
             'stock' => 'required|numeric|min:0',
             'category_id' => 'required',
-            'subcategory_id' => 'required',
             'brand_id' => 'required',
             'picture' => 'required'
         ]);
@@ -117,7 +117,6 @@ class ProductController extends Controller
             'sale_price' => 'required|numeric|min:0',
             'stock' => 'required|numeric|min:0',
             'category_id' => 'required',
-            'subcategory_id' => 'required',
             'brand_id' => 'required',
             'picture' => 'required'
         ]);
@@ -136,5 +135,12 @@ class ProductController extends Controller
         //devuelve la vista de product.show
         return redirect()->route('product.index');
 
+    }
+
+    public function getSubcategories(Request $request, Category $category)
+    {
+        $subcategories = $category->subcategories->pluck('name', 'id');
+        
+        return response()->json(['subcategories' => $subcategories]);
     }
 }

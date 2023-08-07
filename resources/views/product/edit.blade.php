@@ -2,6 +2,7 @@
 
 @push('styles')
     <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 @endpush
 
 @section('content')
@@ -73,8 +74,9 @@
             </div>
 
             <div class="relative z-0 w-full mb-6 group">
-                <label for="subcategory_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Seleccione la compañia emisora</label>
-                <select name="subcategory_id" id="subcategory_id" data-te-select-init data-te-select-filter="true">
+                <label for="subcategory_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Subcategoria</label>
+                <select name="subcategory_id" id="subcategory_id" data-te-select-init data-te-select-filter="true" data-te-select-clear-button="true">
+                    <option value="" hidden selected></option>
                     @foreach ($subcategories as $subcategory)
                     <option value="{{ $subcategory->id }}" @if($product->subcategory_id == $subcategory->id) selected @endif>
                         {{ $subcategory->name }}
@@ -88,7 +90,7 @@
             </div>
 
             <div class="relative z-0 w-full mb-6 group">
-                <label for="brand_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Seleccione la compañia emisora</label>
+                <label for="brand_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Marca</label>
                 <select name="brand_id" id="brand_id" data-te-select-init data-te-select-filter="true">
                     @foreach ($brands as $brand)
                     <option value="{{ $brand->id }}" @if($product->brand_id == $brand->id) selected @endif>
@@ -117,6 +119,34 @@
     </div>
 </div>
 </div>
+
+<script>
+    $(document).ready(function() {
+        $('#category_id').change(function() {
+            var categoryId = $(this).val();
+            var subcategorySelect = $('#subcategory_id');
+            
+            $.ajax({
+                url: '/product/subcategory/' + categoryId, // Ruta a tu controlador para obtener subcategorías
+                type: 'GET',
+                success: function(response) {
+                    subcategorySelect.empty();
+                    subcategorySelect.append($('<option>', {
+                        value: '',
+                        text: ''
+                    }));
+                    
+                    $.each(response.subcategories, function(key, value) {
+                        subcategorySelect.append($('<option>', {
+                            value: key,
+                            text: value
+                        }));
+                    });
+                }
+            });
+        });
+    });
+</script>
 
 
 @endsection

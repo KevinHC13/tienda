@@ -142,3 +142,4 @@ Route::get('/sale/create',[SalesController::class,'create'])->name('sale.create'
 
 Route::post('/imagenes',[ImagesController::class, 'store'])->name('imagenes.store');
 
+Route::get('/product/subcategory/{category}', [ProductController::class, 'getSubcategories']);
