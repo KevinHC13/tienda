@@ -15,7 +15,7 @@
           </div>
 
         <div class="flex justify-center">
-        <div class="w-1/3 flex mt-11 mb-11">
+        <div class="w-1/3 flex mt-11 mb-11 h-max">
             <form action="{{ route('imagenes.store') }}" method="POST" enctype="multipart/form-data" class="dropzone border rounded w-full -h-1/2 text-black" id="dropzone">
                 @csrf
             </form>
@@ -70,6 +70,7 @@
                     <p class="text-red-600 my-2 rounded-lg text-sm p-2 text-center" >{{ $message }}</p>
                 @enderror
             </div>
+
 
             <div class="relative z-0 w-full mb-6 group">
                 <label for="subcategory_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Subcategoria</label>

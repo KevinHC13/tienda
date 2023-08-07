@@ -13,6 +13,7 @@ class ProviderController extends Controller
     }
     public function index()
     {
+        //obtiene los datos de la tabla providers
         $providers = Provider::paginate(10);
 
         return view('provider.index', [
@@ -22,18 +23,20 @@ class ProviderController extends Controller
 
     public function create()
     {
+        //devuelve la  vista  de provider.create
         return view('provider.create');
     }
 
     public function store(Request $request)
     {
+        //valide los datos enviados por el usuario
         $this->validate($request, [
             'name' => 'required|max:255|unique:providers',
             'code' => 'required|max:255|unique:providers',
             'phone' => ['required', 'regex:/^\d{10}$/'],
             'email' => 'required|max:255|email|unique:providers',
         ]);
-
+        //crea un nuevo proveedor con los datos enviados por el usuario
         Provider::create([
             'name' => $request->name,
             'code' => $request->code,
@@ -41,12 +44,13 @@ class ProviderController extends Controller
             'email' => $request->email,
             'user_id' => auth()->user()->id
         ]);
-
+        //redirige al usuario a la pagina de listado de proveedores
         return redirect()->route('provider.index');
     }
 
     public function show(Provider $provider)
     {
+        //devuelve la vista provider.show
         return view('provider.show', [
             'provider' => $provider
         ]);
@@ -54,6 +58,7 @@ class ProviderController extends Controller
 
     public function destroy(Provider $provider)
     {
+        //elimina un provedor 
         $provider->delete();
         
         return redirect()->route('provider.index');

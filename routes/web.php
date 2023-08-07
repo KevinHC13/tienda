@@ -1,17 +1,22 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Yajra\DataTables\Html\Editor\Editor;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\ClientController;
 use App\Http\Controllers\ImagesController;
 use App\Http\Controllers\LogoutController;
+use App\Http\Controllers\UsarioController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProvedorController;
+use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\SalesController;
 use App\Http\Controllers\SubcategoryController;
-use Yajra\DataTables\Html\Editor\Editor;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,10 +36,6 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->name('dashboard');
-
-Route::get('/ventas', function () {
-    return view('venta.index');
-})->name('venta.index');
 
 Route::get('/ventas/detalles', function () {
     return view('venta.show');
@@ -104,6 +105,40 @@ Route::delete('/client/{client}',[ClientController::class,'destroy'])->name('cli
 Route::get('/client/{client}/edit',[ClientController::class,'edit'])->name('client.edit');
 Route::put('/client/{client}',[ClientController::class,'update'])->name('client.update');
 Route::get('/client/{client}',[ClientController::class,'show'])->name('client.show');
+
+
+//Rutas provedores
+Route::get('/provedor',[ProvedorController::class,'index'])->name('provedor.index');
+Route::get('/provedor/create',[ProvedorController::class,'create'])->name('provedor.create');
+Route::post('/provedor',[ProvedorController::class,'store'])->name('provedor.store');
+Route::delete('/provedor/{provedor}',[ProvedorController::class,'destroy'])->name('provedor.destroy');
+Route::get('/provedor/{provedor}/edit',[ProvedorController::class,'edit'])->name('provedor.edit');
+Route::put('/provedor/{provedor}',[ProvedorController::class,'update'])->name('provedor.update');
+Route::get('/provedor/{provedor}',[ProvedorController::class,'show'])->name('provedor.show');
+
+//Rutas usuarios
+Route::get('/user',[UserController::class,'index'])->name('user.index');
+Route::get('/user/create',[UserController::class,'create'])->name('user.create');
+Route::post('/user',[UserController::class,'store'])->name('user.store');
+Route::delete('/user/{user}',[UserController::class,'destroy'])->name('user.destroy');
+Route::get('/user/{user}/edit',[UserController::class,'edit'])->name('user.edit');
+Route::put('/user/{user}',[UserController::class,'update'])->name('user.update');
+Route::get('/user/{user}',[UserController::class,'show'])->name('user.show');
+
+//Rutas usuarios
+Route::get('/purchase',[PurchaseController::class,'index'])->name('purchase.index');
+Route::get('/purchase/create',[PurchaseController::class,'create'])->name('purchase.create');
+Route::post('/purchase',[PurchaseController::class,'store'])->name('purchase.store');
+Route::delete('/purchase/{purchase}',[PurchaseController::class,'destroy'])->name('purchase.destroy');
+Route::get('/purchase/{purchase}/edit',[PurchaseController::class,'edit'])->name('purchase.edit');
+Route::put('/purchase/{purchase}',[PurchaseController::class,'update'])->name('purchase.update');
+Route::get('/purchase/{purchase}',[PurchaseController::class,'show'])->name('purchase.show');
+
+
+//Rutas ventas
+Route::get('/sale',[SalesController::class,'index'])->name('sale.index');
+Route::get('/sale/create',[SalesController::class,'create'])->name('sale.create');
+
 
 Route::post('/imagenes',[ImagesController::class, 'store'])->name('imagenes.store');
 
