@@ -28,9 +28,11 @@ class PurchaseController extends Controller
     {
         // Selecciona todos los proveedores para elegir uno en la visa
         $provedores = Provedor::all();
+        $products = Product::all();
         //devuelve la vista purchase.create
         return view('purchase.create',[
             'provedores' => $provedores,
+            'products' => $products,
         ]);
   
     }
@@ -38,7 +40,7 @@ class PurchaseController extends Controller
     // Crea un nuevo registro de la compra
     public function store(Request $request)
     {
-        $this->validate($request, [
+        /*$this->validate($request, [
             'provedor_id' => 'required',
             'code' => 'required|integer|unique:purchases',        
             'tota' => 'required', 
@@ -60,6 +62,10 @@ class PurchaseController extends Controller
             'pendiente' => $request->tota - $request->pagado ,
             'estatus_pago' => ($request->tota == $request->pagado) ? "Pagado" : "Pendiente" ,
         ]);
+        */
+
+        dd($request);
+
         
         return redirect()->route('purchase.index');
     }
@@ -114,5 +120,18 @@ class PurchaseController extends Controller
         return view('purchase.show',[
             'purchase' => $purchase
         ]);
+    }
+
+    public function addProduct(Request $request)
+    {
+        $stock_product = $request->stock_product;
+        $product = Product::findOrFail($request->product_id);
+
+        $respuesta = [
+            'product' => $product,
+            'stock' => $stock_product,
+        ];
+
+        return response()->json($respuesta);
     }
 }

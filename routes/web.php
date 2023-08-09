@@ -134,6 +134,8 @@ Route::get('/purchase/{purchase}/edit',[PurchaseController::class,'edit'])->name
 Route::put('/purchase/{purchase}',[PurchaseController::class,'update'])->name('purchase.update');
 Route::get('/purchase/{purchase}',[PurchaseController::class,'show'])->name('purchase.show');
 
+Route::post('/purchase/addproduct', [PurchaseController::class, 'addProduct']);
+
 
 //Rutas ventas
 Route::get('/sale',[SalesController::class,'index'])->name('sale.index');

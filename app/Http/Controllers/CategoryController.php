@@ -46,12 +46,14 @@ class CategoryController extends Controller
             'name' => 'required|max:255',
             'code' => 'required|max:10',
             'description' => 'required|max:255',
+            'picture' => 'required'
         ]);
 
         Category::create([
             'name' => $request->name,
             'code' => $request->code,
             'description' => $request->description,
+            'picture' => $request->picture,
             'user_id' => auth()->user()->id,
         ]);
 
@@ -110,11 +112,13 @@ class CategoryController extends Controller
             'name' => 'required|max:255',
             'code' => 'required|max:10',
             'description' => 'required|max:255',
+            'picture' => 'required',
         ]);
 
         $category->name = $request->name;
         $category->code = $request->code;
         $category->description = $request->description;
+        $category->picture = $request->picture;
 
         $category->save();
 
