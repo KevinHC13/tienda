@@ -18,11 +18,10 @@
       </div>
       <div class=" w-full overflow-x-auto flex justify-center">
   
-          <section class="text-gray-600 body-font overflow-hidden">
-              <div class="container px-5 py-24 mx-auto">
-                <div class="lg:w-4/5 mx-auto flex flex-wrap">
-                  <img alt="ecommerce" class="lg:w-1/2 w-full lg:h-auto h-64 object-cover object-center rounded" src="{{ asset('images/compras.png') }}">
-                  <div class="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
+          <section class="text-gray-600 body-font w-full overflow-hidden">
+              <div class="container px-5 py-24 w-full mx-auto">
+                <div class="mx-auto w-full flex flex-wrap">
+                  <div class="w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
                     <h2 class="text-sm title-font text-gray-500 tracking-widest">Referencia</h2>
                     <h1 class="text-black text-3xl title-font font-medium mb-1">{{$purchase->code}}</h1>
                     <div class="flex mb-4">
@@ -33,35 +32,13 @@
                               <tr class="hover:bg-grey-lighter">
                                 <td class="py-4 px-6 border-b border-grey-light">Proveedor</td>
                                 <td class="py-4 px-6 border-b border-grey-light">{{ $purchase->provedor->name }}</td>
-                              </tr>                        
-                              <tr class="hover:bg-grey-lighter">
-                                <td class="py-4 px-6 border-b border-grey-light">Referencia</td>
-                                <td class="py-4 px-6 border-b border-grey-light">{{ $purchase->code }}</td>
-                              </tr>
-                              <tr class="hover:bg-grey-lighter">
-                                <td class="py-4 px-6 border-b border-grey-light">Estatus</td>
-                                <td class="py-4 px-6 border-b border-grey-light">{{ $purchase->estatus }}</td>
-                              </tr>
-                              <tr class="hover:bg-grey-lighter">
-                                <td class="py-4 px-6 border-b border-grey-light">Total</td>
-                                <td class="py-4 px-6 border-b border-grey-light">{{ $purchase->tota }}</td>
-                              </tr>
-                              <tr class="hover:bg-grey-lighter">
-                                <td class="py-4 px-6 border-b border-grey-light">Pagado</td>
-                                <td class="py-4 px-6 border-b border-grey-light">{{ $purchase->pagado }}</td>
-                              </tr>
-                              <tr class="hover:bg-grey-lighter">
-                                <td class="py-4 px-6 border-b border-grey-light">Pendiente</td>
-                                <td class="py-4 px-6 border-b border-grey-light">{{ $purchase->pendiente }}</td>
-                              </tr>    
-                              <tr class="hover:bg-grey-lighter">
-                                <td class="py-4 px-6 border-b border-grey-light">Estatus de pago</td>
-                                <td class="py-4 px-6 border-b border-grey-light">{{ $purchase->estatus_pago }}</td>
-                              </tr>
-                              <tr class="hover:bg-grey-lighter">
                                 <td class="py-4 px-6 border-b border-grey-light">Fecha</td>
-                                <td class="py-4 px-6 border-b border-grey-light">{{ $purchase->created_at->format('Y-m-d') }}</td>
-                              </tr>
+                                <td class="py-4 px-6 border-b border-grey-light">{{ $fecha }}</td>
+                                <td class="py-4 px-6 border-b border-grey-light">Productos</td>
+                                <td class="py-4 px-6 border-b border-grey-light">{{ $purchase->products->count() }}</td>
+                                <td class="py-4 px-6 border-b border-grey-light">Total</td>
+                                <td class="py-4 px-6 border-b border-grey-light">{{ '$ ' . $purchase->tota }}</td>
+                              </tr>                        
                             </tbody>
                           </table>
                         </div>

@@ -41,6 +41,11 @@ class Product extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function purchase_details()
+    {
+        return $this->hasMany(PurchaseDetails::class);
+    }
+
 }
 
 

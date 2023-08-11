@@ -11,20 +11,19 @@ class Purchase extends Model
 
     protected $fillable = [
         'provedor_id',
-        'estatus',
         'code',
+        'date',
         'tota',
-        'pagado',
-        'pendiente',
-        'estatus_pago',
         ];
 
     public function provedor()
     {
         return    $this->belongsTo(Provedor::class);
     }
-    public function product()
+
+    public function products()
     {
-        return    $this->belongsTo(Product::class);
+        return $this->hasMany(PurchaseDetails::class, 'purchases_id', 'id');
     }
+    
 }

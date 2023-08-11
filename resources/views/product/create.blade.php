@@ -71,8 +71,14 @@
             <div class="relative z-0 w-full mb-6 group">
                 <label for="subcategory_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Subcategoria</label>
                 <select name="subcategory_id" id="subcategory_id" data-te-select-init data-te-select-filter="true" data-te-select-clear-button="true">
-                    <option value="" hidden selected></option>
-                </select>
+			<option value="" hidden selected></option>                    
+			@foreach ($subcategories as $subcategory)
+                    <option value="{{ $subcategory->id }}" {{ old('subcategory_id') == $subcategory->id ? 'selected' : '' }}>
+                        {{ $subcategory->name }}
+                    </option>
+                    @endforeach
+                    
+                  </select>
                 @error('subcategory_id')
                     <p class="text-red-600 my-2 rounded-lg text-sm p-2 text-center">{{ $message }}</p>
                 @enderror

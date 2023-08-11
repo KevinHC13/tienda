@@ -28,12 +28,15 @@
                 </div>
             @endif
             </div>
+          <div data-error class="hidden bg-red-500 p-2 non rounded-lg mb-6 text-white text-center uppercase font-bold">
+            
+          </div>
 
             <div class="flex justify-between" >
 
                 <div class="relative z-0 w-1/4 mb-6 group">
                     <label for="provedor_id" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Proveedor</label>
-                    <select name="provedor_id" id="provedor_id" data-te-select-init data-te-select-filter="true">
+                    <select name="provedor_id" id="provedor_id" data-provedorId data-te-select-init data-te-select-filter="true">
                         @foreach ($provedores as $provedor)
                         <option  value="{{ $provedor->id }}" {{ old('provedor_id') == $provedor->id ? 'selected' : '' }}>
                             {{ $provedor->name }}
@@ -50,7 +53,7 @@
                 
 
                 <div class="relative z-0 w-1/4 mb-6 group">
-                    <input value="{{ old('date') }}" type="date" name="date" id="date" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                    <input value="{{ old('date') }}" data-date type="date" name="date" id="date" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
                     <label for="date" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                         Fecha</label>
                     @error('date')
@@ -59,7 +62,7 @@
                 </div>
 
                 <div class="relative z-0 w-1/4 mb-6 group">
-                    <input value="{{ old('code') }}" type="text" name="code" id="code" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                    <input value="{{ old('code') }}" data-code type="text" name="code" id="code" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
                     <label for="code" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                         Referencia</label>
                     @error('code')
@@ -131,6 +134,35 @@
                       </div>
                     </div>
                   </div>
+            </div>
+            <div class="w-1/3">
+              <div class="flex flex-col">
+                <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
+                  <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+                    <div class="overflow-hidden">
+                      <table class="min-w-full text-left text-sm font-light">
+                        <thead class="border-b font-medium dark:border-neutral-500">
+                          <h1 class="h-1 text-3xl mb-5 mt-4">Resumen</h1>
+                        </thead>
+                        <tbody>
+                          <tr class="border-b dark:border-neutral-500">
+                            <td class="whitespace-nowrap px-6 py-4 font-medium"><label class="w-16 text-center bg-transparent">Subtotal</label></td>
+                            <td class="whitespace-nowrap px-6 py-4 font-medium"><label data-subtotal class="w-16 text-center bg-transparent">0</label></td>
+                          </tr>
+                          <tr class="border-b dark:border-neutral-500">
+                            <td class="whitespace-nowrap px-6 py-4 font-medium"><label class="w-16 text-center bg-transparent">IVA</label></td>
+                            <td class="whitespace-nowrap px-6 py-4 font-medium"><label data-iva class="w-16 text-center bg-transparent">0</label></td>
+                          </tr>
+                          <tr class="border-b dark:border-neutral-500">
+                            <td class="whitespace-nowrap px-6 py-4 font-medium"><label class="w-16 text-center bg-transparent">Total</label></td>
+                            <td class="whitespace-nowrap px-6 py-4 font-medium"><label data-total class="w-16 text-center bg-transparent">0</label></td>
+                          </tr>
+                          </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
             
