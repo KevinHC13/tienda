@@ -58,34 +58,48 @@ class PurchaseController extends Controller
 
         if($products)
         {
+        try
+        {
             $purchase = Purchase::create([
                 'provedor_id' => $request->provedor_id,
                 'code' => $request->code,
                 'date' => $request->date,
                 'tota' => $request->total,
             ]);
-    
-            
-    
-            foreach ($products as $productId => $quantity) {
-                PurchaseDetails::create([
-                    'purchases_id' => $purchase->id,
-                    'product_id' => $productId,
-                    'add_stock' => $quantity,
-                ]);
+        }catch(ValidationException $e){
+            return response()->json(['message' => 'Error al crear la compra', 'errors' => $e->errors()], 422);
+        }
 
+            foreach ($products as $productId => $quantity) {
+                try
+                {
+                    PurchaseDetails::create([
+                        'purchases_id' => $purchase->id,
+                        'product_id' => $productId,
+                        'add_stock' => $quantity,
+                    ]);
+                }catch(ValidationException $e){
+                    return response()->json(['message' => 'Error al crear los productos', 'errors' => $e->errors()], 422);
+                }
+        
+               try
+               {
                 $product_register = Product::find($productId);
 
                 if ($product_register) {
                     $product_register->stock = $product_register->stock + $quantity;
                     $product_register->save();
                 } 
+               }catch(ValidationException $e){
+                return response()->json(['message' => 'Error al sumar el stock', 'errors' => $e->errors()], 422);
+            }
+                
             }
         }
         
 
         
-        return redirect()->route('purchase.index');
+        return response()->json($request);
     }
 
     // Elimina la compra pasada como parametro

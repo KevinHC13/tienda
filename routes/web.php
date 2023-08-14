@@ -140,7 +140,9 @@ Route::post('/purchase/addproduct', [PurchaseController::class, 'addProduct']);
 //Rutas ventas
 Route::get('/sale',[SalesController::class,'index'])->name('sale.index');
 Route::get('/sale/create',[SalesController::class,'create'])->name('sale.create');
-
+Route::post('/sale/getProducts', [SalesController::class, 'getProducts']);
+Route::post('/sale', [SalesController::class, 'store']);
+Route::get('/sale/{sale}', [SalesController::class, 'show'])->name('sale.show');
 
 Route::post('/imagenes',[ImagesController::class, 'store'])->name('imagenes.store');
 

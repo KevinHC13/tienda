@@ -20,7 +20,7 @@ class PurchaseDetails extends Model
         return $this->belongsTo(Purchase::class, 'purchases_id', 'id');
     }
 
-    public function product()
+    public function producto()
     {
         return $this->belongsTo(Product::class);
     }

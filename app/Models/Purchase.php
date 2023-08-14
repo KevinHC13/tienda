@@ -21,9 +21,13 @@ class Purchase extends Model
         return    $this->belongsTo(Provedor::class);
     }
 
-    public function products()
+    public function detalles()
     {
         return $this->hasMany(PurchaseDetails::class, 'purchases_id', 'id');
     }
-    
+    public function productos()
+    {
+        return $this->belongsToMany(Product::class, 'purchase_details', 'purchases_id', 'product_id')
+                    ->withPivot('add_stock');
+    }
 }

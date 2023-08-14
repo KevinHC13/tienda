@@ -1,5 +1,4 @@
-/** @type {import('tailwindcss').Config} */
-export default {
+module.exports = {
   content: [
     "./resources/**/*.blade.php",
     "./resources/**/*.js",
@@ -10,6 +9,6 @@ export default {
   theme: {
     extend: {},
   },
-  plugins: [require("tw-elements/dist/plugin.cjs")]
+  plugins: [require("tw-elements/dist/plugin.cjs")],
+  safelist: ['animate-[tada_1s_ease-in-out]', 'animate-[fade-in-down_1s_ease-in-out]']
 }
-

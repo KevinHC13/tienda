@@ -41,7 +41,7 @@
                 <tr class="hover:bg-grey-lighter">
                   <td class="py-4 px-6 border-b border-grey-light">{{$purchase->code}}</td>
                   <td class="py-4 px-6 border-b border-grey-light">{{$purchase->provedor->name}}</td>
-                  <td class="py-4 px-6 border-b border-grey-light">{{$purchase->products->count()}}</td>
+                  <td class="py-4 px-6 border-b border-grey-light">{{$purchase->productos->count()}}</td>
                   <td class="py-4 px-6 border-b border-grey-light">{{$purchase->tota * .84}}</td>
                   <td class="py-4 px-6 border-b border-grey-light">{{$purchase->tota * .16}}</td>
                   <td class="py-4 px-6 border-b border-grey-light">{{$purchase->tota}}</td>
@@ -51,7 +51,4 @@
                 @endforeach
                 
               @endif
-            
-
-
 @endsection

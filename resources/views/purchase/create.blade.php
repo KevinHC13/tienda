@@ -3,7 +3,7 @@
 @push('styles')
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
-    <script src="{{ asset('js/compras.js') }}" defer></script>
+    <script src="{{ asset('js/compras.js') }}"  defer></script>
 @endpush
 
 @section('content')

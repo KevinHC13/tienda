@@ -1,3 +1,4 @@
+
 buttonAddProduct = document.querySelector('[data-addProduct]');
 
 form = document.querySelector('[data-form]');

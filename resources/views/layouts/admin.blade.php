@@ -6,6 +6,7 @@
   @vite('resources/css/app.css')
   @vite('resources/js/app.js')
   @stack('styles')
+  @stack('js')
 </head>
 <body>
   <!-- component -->
