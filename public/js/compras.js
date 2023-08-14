@@ -64,7 +64,7 @@ const DOOMModify = (data) => {
         tr.appendChild(td_name);
         image = document.createElement('img');
         image.classList = "w-24 inline mr-5";
-        image.src = 'http://localhost/uploads/' + item.element.picture;
+        image.src = 'http://kevinhc.me/uploads/' + item.element.picture;
         td_name.appendChild(image);
         lable_name = document.createElement('label');
         lable_name.innerText = item.element.name;
@@ -193,7 +193,7 @@ const addProduct = () => {
         stock_product,
     };
 
-    const url = 'http://localhost/purchase/addproduct';
+    const url = 'http://kevinhc.me/purchase/addproduct';
 
     const options = {
         method: 'POST',
@@ -249,7 +249,7 @@ const sendForm = (e) => {
 
     const jsonPayload = JSON.stringify(formDataObj);
 
-    const url = 'http://localhost/purchase';
+    const url = 'http://kevinhc.me/purchase';
 
     const options = {
         method: 'POST',
@@ -266,7 +266,7 @@ const sendForm = (e) => {
         const div = document.querySelector('[data-error]');
         div.classList.add('hidden');
         console.log(products_list);
-        window.location.href = 'http://localhost/purchase';
+        window.location.href = 'http://kevinhc.me/purchase';
       return response.json(); // Retorna la promesa resultante de response.json()
       
     } else {
