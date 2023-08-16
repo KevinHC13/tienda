@@ -10,6 +10,10 @@ use App\Models\Sales;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Str;
+use PDF;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 
 class SalesController extends Controller
 {
@@ -101,6 +105,65 @@ class SalesController extends Controller
             'sale' => $sale
         ]);
     }
+
+    public function create_pdf()
+    {
+        $sales = Sales::all();
+
+        $html = view('sale.report',[
+            'sales' => $sales
+        ]);
+
+        $pdf = PDF::loadHTML($html);
+
+        return $pdf->download('reporte_ventas.pdf');
+    }
+
+    public function create_xlsx()
+    {
+        $sales = Sales::all();
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // Titulos
+        $sheet->setCellValue('A1','Vendedor');
+        $sheet->setCellValue('B1','Fecha');
+        $sheet->setCellValue('C1','Referencia');
+        $sheet->setCellValue('D1','Productos');
+        $sheet->setCellValue('E1','Cliente');
+        $sheet->setCellValue('F1','Total');
+        $sheet->setCellValue('G1','Facturador');
+        
+        $row = 2;
+        
+        foreach($sales as $sale){
+            $sheet->setCellValue('A' . $row, $sale->user->username);
+            $sheet->setCellValue('B' . $row, $sale->created_at);
+            $sheet->setCellValue('C' . $row, $sale->code);
+            $sheet->setCellValue('D' . $row, $sale->detalles->count());
+            $sheet->setCellValue('E' . $row, $sale->client->name);
+            $sheet->setCellValue('F' . $row, $sale->total);
+            $sheet->setCellValue('G' . $row, $sale->user->username);
+            $row++;
+        }
+
+
+        // Crear el archivo y descargarlo
+         $writer = new Xlsx($spreadsheet);
+         $filename = 'reporte_ventas.xlsx';
+        
+         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+         header('Content-Disposition: attachment;filename="' . $filename . '"');
+         header('Cache-Control: max-age=0');
+     
+         $writer->save('php://output');
+     
+
+    }
+
+
+
 
     
 

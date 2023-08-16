@@ -9,6 +9,9 @@ use App\Models\Subcategory;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
 use Illuminate\Support\Facades\File;
+use PDF;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
 
 
@@ -142,5 +145,63 @@ class ProductController extends Controller
         $subcategories = $category->subcategories->pluck('name', 'id');
         
         return response()->json(['subcategories' => $subcategories]);
+    }
+
+    public function create_pdf()
+    {
+        $products = Product::all();
+
+        $html = view('product.report',[
+            'products' => $products
+        ]);
+
+        $pdf = PDF::loadHTML($html);
+
+        return $pdf->download('reporte_inventario.pdf');
+    }
+
+    public function create_xlsx()
+    {
+        $products = Product::all();
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // Titulos
+        $sheet->setCellValue('A1','Nombre');
+        $sheet->setCellValue('B1','Precio de compra');
+        $sheet->setCellValue('C1','Precio de venta');
+        $sheet->setCellValue('D1','Stock');
+        $sheet->setCellValue('E1','Categoria');
+        $sheet->setCellValue('F1','Subcategoria');
+        $sheet->setCellValue('G1','Marca');
+        $sheet->setCellValue('H1','Agregado por');
+        
+        $row = 2;
+        
+        foreach($products as $product){
+            $sheet->setCellValue('A' . $row, $product->name);
+            $sheet->setCellValue('B' . $row, $product->purchase_price);
+            $sheet->setCellValue('C' . $row, $product->sale_price);
+            $sheet->setCellValue('D' . $row, $product->stock);
+            $sheet->setCellValue('E' . $row, $product->category->name);
+            $sheet->setCellValue('F' . $row, $product->subcategory->name ?? "");
+            $sheet->setCellValue('G' . $row, $product->brand->name);
+            $sheet->setCellValue('H' . $row, $product->user->username);
+            $row++;
+        }
+
+
+        // Crear el archivo y descargarlo
+         $writer = new Xlsx($spreadsheet);
+         $filename = 'reporte_inventario.xlsx';
+        
+         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+         header('Content-Disposition: attachment;filename="' . $filename . '"');
+         header('Cache-Control: max-age=0');
+     
+         $writer->save('php://output');
+     
+
     }
 }

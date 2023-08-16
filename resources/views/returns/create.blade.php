@@ -1,133 +1,115 @@
 @extends('layouts.admin')
 
-@push('styles')
-    <meta name="csrf-token" content="{{ csrf_token() }}">
-    <script src="https://kit.fontawesome.com/e56805774d.js" crossorigin="anonymous"></script>
-@endpush
-
 @push('js')
-  <script src="{{ asset('js/pos.js') }}" type="module" defer ></script>    
+<meta name="csrf-token" content="{{ csrf_token() }}">
+  <script src="{{ asset('js/returns.js') }}" type="module" defer ></script> 
+    
 @endpush
 
 @section('content')
-<div class="flex justify-center h-full">
-<div class="bg-white dark:bg-gray-700 w-full">
-    <div class="mx-auto w-full max-w-2xl px-4 py-16 sm:px-6 sm:py-24 lg:max-w-7xl lg:px-8">
-        <div class="mt-4 relative w-full max-w-full flex-grow flex-1">
-            <h3 class="ml-6 font-semibold text-base text-gray-900 dark:text-white ">Productos</h3>
-          </div>
 
+<div class="m-4">
+<div class="relative flex flex-col min-w-0 mb-4 lg:mb-0 break-words bg-gray-50 dark:bg-gray-800 w-full shadow-lg rounded">
+  <div class="rounded-t mb-0 px-0 border-0">
+    <div class=" flex flex-wrap items-center px-4 py-2">
+      <div class=" border-b-2 relative w-full max-w-full flex-grow flex-1">
+        <div class="m-5 flex justify-between">
+            <h3 class=" ml-6 font-semibold text-base text-gray-900 dark:text-gray-50">Devolucion</h3>
+            
+        </div>
+        
+      </div>
+    </div>
+    <div class="flex justify-between m-6">
         <div>
-            <ul class="flex m-8 justify-evenly">
-              <li data-categoryId="0" class="cursor-pointer">
-                <div class="flex justify-center flex-col items-center w-32 h-32 rounded-xl overflow-hiden bg-transparent">
-                  <img class="w-1/2  h-1/2" src="{{ asset('icons/bag.png') }}" alt="">
-                  <h2 class=" text-black dark:text-white" >Todos</h2>
-              </div>
-              </li>
-              @foreach ($categories as $category)
-                <li data-categoryId="{{ $category->id }}" class="cursor-pointer">
-                  <div class="flex justify-center flex-col items-center w-32 h-32 rounded-xl overflow-hiden bg-transparent">
-                    <img class="w-1/2 h-1/2 rounded-full" src="{{ asset('uploads/' . $category->picture) }}" alt="">
-                    <h2 class=" text-black dark:text-white h-6 text-center overflow-hidden text-ellipsis" >{{ $category->name }}</h2>
-                  </div>
-                </li>  
-              @endforeach
+            <p class="text-blue-400">Informacion de Cliente</p>
+            <ul>
+                <li>{{ $sale->client->name }}</li>
+                <li>{{ $sale->client->email }}</li>
+                <li>{{ $sale->client->telefono }}</li>
+                <li>{{ $sale->client->direccion }}</li>
             </ul>
         </div>
-      <div data-products class="w-full min-w-full grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">  
+        <div>
+            <p class="text-blue-400">Informacion de Factura</p>
+            <ul>
+                <li>Referencia: {{ $sale->code }}</li>
+                <li>Vendendor: {{ $sale->user->username }}</li>
+                <li>Subtotal: $ {{ $sale->total * .84 }}</li>
+                <li>IVA: $ {{ $sale->total * .16 }}</li>
+                <li>Total: $ {{ $sale->total }}</li>
+            </ul>
+        </div>
+      
       </div>
+    <div class="w-full overflow-x-auto">
+      <div class="table-responsive">
+        <table class="m-6 w-full text-left border-collapse">
+            <thead>
+              <tr>
+                <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Nombre de Producto</th>
+                <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Precio</th>
+                <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Cantidad</th>
+                <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">IVA</th>
+                <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Subtotal</th>
+                <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Devolucion</th>
+            </thead>
+            <tbody data-saleid="{{ $sale->id }}" >
+              @foreach ($sale->detalles as $detail)
+                <tr class="hover:bg-grey-lighter">
+                  <td class="py-4 px-6 border-b border-grey-light"><img class="w-24 inline mr-5" src="{{ asset('uploads/'.$detail->producto->picture) }}" alt="Imagen de producto"> <p class="inline">{{ $detail->producto->name }}</p></td>
+                  <td class="py-4 px-6 border-b border-grey-light">$ {{ $detail->producto->sale_price }}</td>
+                  <td class="py-4 px-6 border-b border-grey-light">{{ $detail->quantity }}</td>
+                  <td class="py-4 px-6 border-b border-grey-light">$ {{ $detail->producto->sale_price * $detail->quantity * .16 }}</td>
+                  <td class="py-4 px-6 border-b border-grey-light">$ {{ $detail->producto->sale_price * $detail->quantity }}</td>
+                  <td class="py-4 px-6 border-b border-grey-light">
+                    <div class="flex justify-between">
+                      <button
+                          data-buttonDown="{{ $detail->producto->id }}"
+                          type="button"
+                          class="inline-block rounded border-2 border-primary px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-primary transition duration-150 ease-in-out hover:border-primary-600 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-primary-600 focus:border-primary-600 focus:text-primary-600 focus:outline-none focus:ring-0 active:border-primary-700 active:text-primary-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
+                          data-te-ripple-init>
+                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M18 12H6" />
+                          </svg>
+          
+                        
+                      </button>
+                          <p class="text-gray-500 block" data-quantity="{{ $detail->quantity }}" data-lableQuantity="{{ $detail->producto->id }}" >0</p>
+                          <button
+                              data-buttonUp="{{ $detail->producto->id }}"
+                              type="button"
+                              class="inline-block rounded border-2 border-primary px-6 pb-[6px] pt-2 text-xs font-medium uppercase leading-normal text-primary transition duration-150 ease-in-out hover:border-primary-600 hover:bg-neutral-500 hover:bg-opacity-10 hover:text-primary-600 focus:border-primary-600 focus:text-primary-600 focus:outline-none focus:ring-0 active:border-primary-700 active:text-primary-700 dark:hover:bg-neutral-100 dark:hover:bg-opacity-10"
+                              data-te-ripple-init>
+                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-3 h-3">
+                                  <path stroke-linecap="round" stroke-linejoin="round" d="M12 6v12m6-6H6" />
+                              </svg>
+                          </button>
+                      </div>
+
+                  </td>
+
+                </tr>
+              @endforeach
+            </tbody>
+          </table>
+    </div>
     </div>
   </div>
-</div>
+  <div class="m-6">
+    <div class="m-6">
+      <button data-sendButton type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Guardar</button>
+      <a type="button" href="{{ route('returns.index') }}" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Cancelar</a>    
+  </div>  
 
-<div class="fixed top-14 right-0 hidden" data-carMenu>
-<div class="pointer-events-auto h-screen flex max-w-md">
-  <div class="flex h-full flex-col overflow-y-scroll bg-white shadow-xl">
-    <div class="flex-1 overflow-y-auto px-4 py-6 sm:px-6">
-      <div class="flex items-start justify-between">
-        <h2 class="text-lg font-medium text-gray-900" id="slide-over-title">Productos</h2>
-        <div class="ml-3 flex h-7 items-center">
-          <button data-showMenu type="button" class="relative -m-2 p-2 text-gray-400 hover:text-gray-500">
-            <span class="absolute -inset-0.5"></span>
-            <span class="sr-only">Close panel</span>
-            <svg class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      <div class="mt-8">
-        <div class="flow-root">
-          <div class="relative z-0 w-full mb-6 group text-black">
-            <label for="client_id" class="block mb-2 text-sm font-medium text-gray-900 ">Cliente</label>
-            <select data-clientId name="client_id" id="client_id" class="text-gray-900 dark:text-gray-900" data-provedorId data-te-select-init data-te-select-filter="true">
-                @foreach ($clients as $client)
-                <option  value="{{ $client->id }}" {{ old('client_id') == $client->id ? 'selected' : '' }} class="dark:text-gray-900">
-                    {{ $client->name }}
-                </option>
-                @endforeach
-
-              </select>
-        </div>
-          <ul data-productsList role="list" class="-my-6 divide-y divide-gray-200">
-            <!-- More products... -->
-          </ul>
-        </div>
-      </div>
-    </div>
-
-    <div class="border-t border-gray-200 px-4 py-6 sm:px-6">
-      <div class="flex justify-between text-base mb-4 font-medium text-gray-900">
-        <p>Subtotal</p>
-        <p data-subTotal>$0.00</p>
-      </div>
-      <div class="flex justify-between text-base mb-4 font-medium text-gray-900">
-        <p>IVA</p>
-        <p data-iva>$0.00</p>
-      </div>
-      <div class="flex justify-between text-base mb-4 font-medium text-gray-900">
-        <p>Total</p>
-        <p data-total>$0.00</p>
-      </div>
-      <p class="mt-0.5 text-sm text-gray-500">Haga click en el boton para terminar la venta.</p>
-      <div class="mt-6">
-        <a href="#" data-submitButton class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">
-          Terminar Compra
-        </a>
-      </div>
-      <div class="mt-6 flex justify-center text-center text-sm text-gray-500">
-        <p>
-          or
-          <button type="button" class="font-medium text-indigo-600 hover:text-indigo-500">
-            Continue Shopping
-            <span aria-hidden="true"> &rarr;</span>
-          </button>
-        </p>
-      </div>
-    </div>
   </div>
 </div>
 </div>
 
-
-<div class="fixed top-20 right-10"
-  id="animate-click"
-  data-te-animation-reset="true"
-  data-te-animation="[tada_1s_ease-in-out]"
-  data-carMenu>
-  <button
-    data-showMenu
-    type="button"
-    data-te-ripple-init
-    data-te-ripple-color="light"
-    class="inline-block rounded-full bg-primary p-2 uppercase leading-normal text-white shadow-[0_4px_9px_-4px_#3b71ca] transition duration-150 ease-in-out hover:bg-primary-600 hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:bg-primary-600 focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] focus:outline-none focus:ring-0 active:bg-primary-700 active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.3),0_4px_18px_0_rgba(59,113,202,0.2)] dark:shadow-[0_4px_9px_-4px_rgba(59,113,202,0.5)] dark:hover:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:focus:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)] dark:active:shadow-[0_8px_9px_-4px_rgba(59,113,202,0.2),0_4px_18px_0_rgba(59,113,202,0.1)]">
-    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 h-7 text-white">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M2.25 3h1.386c.51 0 .955.343 1.087.835l.383 1.437M7.5 14.25a3 3 0 00-3 3h15.75m-12.75-3h11.218c1.121-2.3 2.1-4.684 2.924-7.138a60.114 60.114 0 00-16.536-1.84M7.5 14.25L5.106 5.272M6 20.25a.75.75 0 11-1.5 0 .75.75 0 011.5 0zm12.75 0a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
-    </svg>
-  </button>
 </div>
+<!-- ./Social Traffic -->
+</div>
+
 
 <button
   type="button"
@@ -204,10 +186,5 @@
 </div>
 
 
+
 @endsection
-
-
-
-
-
-

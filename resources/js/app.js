@@ -34,6 +34,8 @@ const dropzone = new Dropzone('#dropzone', {
     }
 });
 
+
+
 // Evento que se dispara cuando la carga del archivo ha sido exitosa
 dropzone.on('success', function(file, response) {
     // Actualiza el valor del campo de formulario oculto "imagen" con el nombre del archivo cargado
@@ -46,3 +48,24 @@ dropzone.on('removedfile', function() {
     document.querySelector('[name="picture"]').value = '';
 });
 
+
+if (document.getElementById('csv-dropzone')) {
+    Dropzone.options.csvDropzone = {
+        dictDefaultMessage: 'Sube aquí tu imagen',
+
+        addRemoveLinks: true,
+        dictRemoveFile: 'Borrar Archivo',
+        maxFiles: 1,
+        uploadMultiple: false,
+
+        paramName: "csv_file",
+
+        acceptedFiles: ".csv",
+        init: function () {
+            this.on("success", function (file, response) {
+                // Manejar la respuesta exitosa después de cargar un archivo CSV
+                console.log("CSV file uploaded:", response);
+            });
+        }
+    };
+}

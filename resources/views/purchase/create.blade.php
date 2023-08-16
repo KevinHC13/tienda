@@ -88,7 +88,7 @@
                     @enderror
                 </div>
 
-                <div class="relative z-0 w-1/4 mb-6 group">
+                <div class="relative z-0 w-1/5 mb-6 group">
                     <input value="{{ old('stock') }}" type="number" formnovalidate id="stock" data-stock="" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
                     <label for="stock" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
                         Cantidad</label>
@@ -97,7 +97,16 @@
                     @enderror
                 </div>
 
-                <div class="relative z-0 w-1/4 mb-6 group">
+                <div class="relative z-0 w-1/5 mb-6 group">
+                  <input value="{{ old('data-purchase_price') }}" type="number" formnovalidate id="data-purchase_price" data-purchase_price class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
+                  <label for="data-purchase_price" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">
+                      Precio de compra</label>
+                  @error('data-purchase_price')
+                      <p class="text-red-600 my-2 rounded-lg text-sm p-2 text-center" >{{ $message }}</p>
+                  @enderror
+              </div>
+
+                <div class="relative z-0 w-1/5 mb-6 group">
                     <button
                       type="button"
                       data-addProduct

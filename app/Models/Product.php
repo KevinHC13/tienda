@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use League\CommonMark\Extension\SmartPunct\Quote;
 
 class Product extends Model
 {
@@ -61,6 +62,29 @@ class Product extends Model
     {
         return $this->belongsToMany(Sales::class, 'sale_details', 'product_id', 'sales_id')
                     ->withPivot('quantity');
+    }
+
+    public function quote_detalles()
+    {
+        return $this->hasMany(QuoteDetails::class);
+    }
+
+    public function quotes()
+    {
+        return $this->belongsToMany(Quote::class, 'quote_details', 'product_id', 'quotes_id')
+                    ->withPivot('quantity');
+    }
+
+
+    public function return()
+    {
+        return $this->belongsToMany(Sales::class, 'returns_details', 'product_id', 'returns_id_id')
+                    ->withPivot('quantity');
+    }
+
+    public function return_detalles()
+    {
+        return $this->hasMany(ReturnsDetails::class);
     }
 }
 

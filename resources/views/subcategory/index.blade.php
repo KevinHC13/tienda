@@ -21,8 +21,9 @@
       </div>
       </div>
     </div>
-    <div class=" w-full overflow-x-auto flex justify-center">
-      <table class="m-6 text-left border-collapse">
+    <div class="w-full overflow-x-auto">
+      <div class="table-responsive">
+      <table class="m-6 text-left border-collapse w-full">
         <thead>
           <tr>
             <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Foto</th>
@@ -65,6 +66,7 @@
         </tbody>
       </table>
     </div>
+  </div>
   </div>
   <div class="m-6">
     {{ $subcategories->links() }}

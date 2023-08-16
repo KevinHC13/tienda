@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('returns', function (Blueprint $table) {
             $table->id();
+            $table->unsignedBigInteger('sales_id');
+            $table->string('code');
             $table->timestamps();
+            $table->foreign('sales_id')->references('id')->on('sales')->onDelete('cascade');
         });
     }
 

@@ -9,6 +9,10 @@ use App\Models\PurchaseDetails;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Carbon\Carbon;
+use PDF;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 
 
 class PurchaseController extends Controller
@@ -160,13 +164,71 @@ class PurchaseController extends Controller
     public function addProduct(Request $request)
     {
         $stock_product = $request->stock_product;
+        $purchase_price = $request->purchase_price;
         $product = Product::findOrFail($request->product_id);
 
         $respuesta = [
             'product' => $product,
             'stock' => $stock_product,
+            'purchase_price' => $purchase_price
         ];
 
         return response()->json($respuesta);
+    }
+
+    public function create_pdf()
+    {
+        $purchases = Purchase::all();
+
+        $html = view('purchase.report',[
+            'purchases' => $purchases
+        ]);
+
+        $pdf = PDF::loadHTML($html);
+
+        return $pdf->download('reporte_compras.pdf');
+    }
+
+    public function create_xlsx()
+    {
+        $purchases = Purchase::all();
+
+        $spreadsheet = new Spreadsheet();
+        $sheet = $spreadsheet->getActiveSheet();
+
+        // Titulos
+        $sheet->setCellValue('A1','Codigo');
+        $sheet->setCellValue('B1','Proveedor');
+        $sheet->setCellValue('C1','Productos');
+        $sheet->setCellValue('D1','Subtotal');
+        $sheet->setCellValue('E1','IVA');
+        $sheet->setCellValue('F1','Total');
+        $sheet->setCellValue('G1','Fecha');
+        
+        $row = 2;
+        
+        foreach($purchases as $purchase){
+            $sheet->setCellValue('A' . $row, $purchase->code);
+            $sheet->setCellValue('B' . $row, $purchase->provedor->name);
+            $sheet->setCellValue('C' . $row, $purchase->detalles->count());
+            $sheet->setCellValue('D' . $row, $purchase->tota * 0.84);
+            $sheet->setCellValue('E' . $row, $purchase->tota * 0.16);
+            $sheet->setCellValue('F' . $row, $purchase->tota);
+            $sheet->setCellValue('G' . $row, $purchase->created_at);
+            $row++;
+        }
+
+
+        // Crear el archivo y descargarlo
+         $writer = new Xlsx($spreadsheet);
+         $filename = 'reporte_compras.xlsx';
+        
+         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+         header('Content-Disposition: attachment;filename="' . $filename . '"');
+         header('Cache-Control: max-age=0');
+     
+         $writer->save('php://output');
+     
+
     }
 }

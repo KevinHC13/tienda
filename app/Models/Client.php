@@ -18,5 +18,6 @@ class Client extends Model
         'pais',
         'ciudad',
         'direccion',
+        'estado',
     ];
 }

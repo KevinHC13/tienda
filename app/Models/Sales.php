@@ -37,5 +37,10 @@ class Sales extends Model
                     ->withPivot('quantity');
     }
 
+    public function return()
+    {
+        return $this->hasMany(Returns::class, 'sales_id', 'id');
+    }
+
 
 }

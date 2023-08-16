@@ -63,8 +63,9 @@
 
                       <div class="flex mb-4">
                       </div>
-                      <div class=" w-full overflow-x-auto flex justify-center">
-                        <table class=" w-full text-left border-collapse">
+                      <div class="w-full overflow-x-auto">
+                        <div class="table-responsive">
+                        <table class="m-6 text-left border-collapse w-full">
                           <thead>
                             <tr class="hover:bg-grey-lighter">
                               <td class="py-4 px-6 border-b border-grey-light">Nombre del Producto</td>
@@ -93,6 +94,7 @@
                               </tbody>
                             </table>
                           </div>
+                        </div>
                           
                         </div>
                       </div>

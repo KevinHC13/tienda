@@ -11,12 +11,21 @@ use App\Http\Controllers\UsarioController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ImportController;
 use App\Http\Controllers\ProvedorController;
 use App\Http\Controllers\PurchaseController;
+use App\Http\Controllers\QuotesController;
 use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\ReturnsController;
 use App\Http\Controllers\SalesController;
 use App\Http\Controllers\SubcategoryController;
+use App\Http\Controllers\TicketController;
 use App\Http\Controllers\UserController;
+use App\Models\Client;
+use App\Models\Product;
+use App\Models\Purchase;
+use App\Models\Returns;
+use App\Models\Sales;
 
 /*
 |--------------------------------------------------------------------------
@@ -42,8 +51,12 @@ Route::get('/ventas/detalles', function () {
 })->name('venta.show');
 
 Route::get('/devoluciones', function () {
-    return view('devolucion.index');
+    $clients = Client::all();
+    return view('clientes.report',[
+        'clients' => $clients
+    ]);
 })->name('devolucion.index');
+
 
 Route::get('/register', [RegisterController::class, 'create']);
 Route::post('/register', [RegisterController::class, 'store']);
@@ -87,6 +100,8 @@ Route::delete('/product/{product}',[ProductController::class, 'destroy'])->name(
 Route::get('/product/{product}/edit',[ProductController::class, 'edit'])->name('product.edit');
 Route::put('/product/{product}', [ProductController::class, 'update'])->name('product.update');
 Route::get('/product/{product}', [ProductController::class,'show'])->name('product.show');
+Route::get('/productPdf', [ProductController::class, 'create_pdf'])->name('product.create_pdf');
+Route::get('/productXlsx', [ProductController::class, 'create_xlsx'])->name('product.create_xlsx');
 
 
 Route::get('/provider', [ProviderController::class,'index'])->name('provider.index');
@@ -105,6 +120,9 @@ Route::delete('/client/{client}',[ClientController::class,'destroy'])->name('cli
 Route::get('/client/{client}/edit',[ClientController::class,'edit'])->name('client.edit');
 Route::put('/client/{client}',[ClientController::class,'update'])->name('client.update');
 Route::get('/client/{client}',[ClientController::class,'show'])->name('client.show');
+
+Route::get('/clientPdf',[ClientController::class, 'create_pdf'])->name('client.create_pdf');
+Route::get('/clientXlsx',[ClientController::class, 'create_xlsx'])->name('client.create_xlsx');
 
 
 //Rutas provedores
@@ -134,6 +152,9 @@ Route::get('/purchase/{purchase}/edit',[PurchaseController::class,'edit'])->name
 Route::put('/purchase/{purchase}',[PurchaseController::class,'update'])->name('purchase.update');
 Route::get('/purchase/{purchase}',[PurchaseController::class,'show'])->name('purchase.show');
 
+Route::get('/purchasePdf', [PurchaseController::class,'create_pdf'])->name('purchase.create_pdf');
+Route::get('/purchaseXlsx', [PurchaseController::class,'create_xlsx'])->name('purchase.create_xlsx');
+
 Route::post('/purchase/addproduct', [PurchaseController::class, 'addProduct']);
 
 
@@ -143,7 +164,35 @@ Route::get('/sale/create',[SalesController::class,'create'])->name('sale.create'
 Route::post('/sale/getProducts', [SalesController::class, 'getProducts']);
 Route::post('/sale', [SalesController::class, 'store']);
 Route::get('/sale/{sale}', [SalesController::class, 'show'])->name('sale.show');
+Route::get('/salePdf', [SalesController::class, 'create_pdf'])->name('sale.create_pdf');
+Route::get('/saleXlsx', [SalesController::class, 'create_xlsx'])->name('sale.create_xlsx');
+
+// Rutas para tickets
+Route::get('/ticket/pdf/{sale}',[TicketController::class, 'create_pdf'])->name('ticket.pdf');
+Route::get('/ticket/xlsx/{sale}',[TicketController::class, 'exportXlsx'])->name('ticket.exportXlsx');
+
+// Rutas para las devoluciones
+Route::get('/returns',[ReturnsController::class,'index'])->name('returns.index');
+Route::get('/returns/create/{sale}', [ReturnsController::class, 'create'])->name('returns.create');
+Route::get('/returns/{return}', [ReturnsController::class, 'show'])->name('returns.show');
+Route::post('/returns', [ReturnsController::class, 'store']);
+
+Route::get('/returnsPdf', [ReturnsController::class, 'create_pdf'])->name('returns.create_pdf');
+Route::get('/returnsXlsx', [ReturnsController::class, 'create_xlsx'])->name('returns.create_xlsx');
+
+// Rutas para cotizaciones
+Route::get('/quotes', [QuotesController::class, 'index'])->name('quotes.index');
+Route::get('/quotes/create', [QuotesController::class, 'create'])->name('quotes.create');
+Route::post('/quotes', [QuotesController::class, 'store']);
+Route::get('/quotes/{quote}', [QuotesController::class, 'show'])->name('quotes.show');
+Route::get('/quotes/exportXlsx/{quote}',[QuotesController::class, 'exportXlsx'])->name('quotes.exportXlsx');
 
 Route::post('/imagenes',[ImagesController::class, 'store'])->name('imagenes.store');
 
 Route::get('/product/subcategory/{category}', [ProductController::class, 'getSubcategories']);
+
+
+// Importacion de productos
+Route::get('/import/create', [ImportController::class,'create'])->name('import.create');
+Route::post('/import', [ImportController::class,'store'])->name('import.store');
+Route::get('/import/download', [ImportController::class,'download'])->name('import.download');

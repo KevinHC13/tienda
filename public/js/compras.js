@@ -29,10 +29,12 @@ const updateSumary = () => {
 const DOOMModify = (data) => {
     const element = data.product;
     let stock = data.stock;
+    let purchase_price = data.purchase_price;
     let finde = false;
     products_list.forEach(( e ) => {
         if( e.element.id ==  element.id){
             e.stock = parseInt(e.stock) + parseInt(stock);
+            e.purchase_price = purchase_price;
             finde = true    
         }
     })
@@ -41,6 +43,7 @@ const DOOMModify = (data) => {
         products_list.push(
             {element,
             stock,
+            purchase_price,
             }
         );
     }
@@ -64,7 +67,7 @@ const DOOMModify = (data) => {
         tr.appendChild(td_name);
         image = document.createElement('img');
         image.classList = "w-24 inline mr-5";
-        image.src = 'http://kevinhc.me/uploads/' + item.element.picture;
+        image.src = 'http://localhost/uploads/' + item.element.picture;
         td_name.appendChild(image);
         lable_name = document.createElement('label');
         lable_name.innerText = item.element.name;
@@ -137,7 +140,7 @@ const DOOMModify = (data) => {
         td_purchase.classList.add('whitespace-nowrap', 'px-6', 'py-4', 'font-medium');
         tr.appendChild(td_purchase);
         input_purchase = document.createElement('input');
-        input_purchase.value = item.element.purchase_price;
+        input_purchase.value = item.purchase_price;
         input_purchase.readOnly = true;
         input_purchase.classList.add('w-16', 'text-center', 'bg-transparent');
         td_purchase.appendChild(input_purchase);
@@ -182,6 +185,7 @@ const DOOMModify = (data) => {
 const addProduct = () => {
     product_id = document.querySelector('[data-product').value;
     stock_product = document.querySelector('[data-stock]').value;
+    purchase_price = document.querySelector('[data-purchase_price]').value;
     
     if(stock_product == ''){
         return 1; 
@@ -191,9 +195,10 @@ const addProduct = () => {
     const data = {
         product_id,
         stock_product,
+        purchase_price,
     };
 
-    const url = 'http://kevinhc.me/purchase/addproduct';
+    const url = 'http://localhost/purchase/addproduct';
 
     const options = {
         method: 'POST',
@@ -243,13 +248,13 @@ const sendForm = (e) => {
     console.log(products_list);
 
     products_list.forEach( (compra) => {
-        console.log(compra.element.id);
+        console.log(compra);
         formDataObj.products[compra.element.id] = compra.stock;
     });
 
     const jsonPayload = JSON.stringify(formDataObj);
 
-    const url = 'http://kevinhc.me/purchase';
+    const url = 'http://localhost/purchase';
 
     const options = {
         method: 'POST',
@@ -266,7 +271,7 @@ const sendForm = (e) => {
         const div = document.querySelector('[data-error]');
         div.classList.add('hidden');
         console.log(products_list);
-        window.location.href = 'http://kevinhc.me/purchase';
+        window.location.href = 'http://localhost/purchase';
       return response.json(); // Retorna la promesa resultante de response.json()
       
     } else {
@@ -305,3 +310,50 @@ const sendForm = (e) => {
 buttonAddProduct.addEventListener('click', addProduct);
 
 form.addEventListener('submit', (e) => sendForm(e));
+
+const showPurchasePrice = ( product ) => {
+    inputPurchasePrice = document.querySelector('[data-purchase_price]');
+    inputPurchasePrice.value = product.product.purchase_price;
+};
+
+const getProduct = (product_id) => {
+    const data = {
+        product_id,
+        stock_product: 0,
+    };
+
+    const url = 'http://localhost/purchase/addproduct';
+
+    const options = {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body:JSON.stringify(data)
+    };
+
+    fetch(url, options)
+    .then(response => response.json()) // Procesa la respuesta como JSON
+    .then(data => {
+        showPurchasePrice(data);
+    })
+    .catch(error => {
+      console.error('Error:', error);
+    });
+};
+
+
+
+window.addEventListener('DOMContentLoaded', () => {
+    selectProduct = document.querySelector('[data-product]');
+    let product_id = selectProduct.value;
+
+    getProduct(product_id);
+
+    selectProduct.addEventListener('change', () => {
+        product_id = selectProduct.value;
+        getProduct(product_id);
+
+    })
+})

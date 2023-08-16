@@ -4,6 +4,11 @@
     <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
 @endpush
 
+@push('js')
+    <script src="{{ asset('js/client_edit.js') }}" type="module"></script>
+    
+@endpush
+
 @section('content')
    
 <div class="m-4">
@@ -67,17 +72,29 @@
                 @enderror
             </div>
 
-            <div class="relative z-0 w-full mb-6 group">
-                <input value="{{ old('pais',$client->pais) }}" type="text" name="pais" id="pais" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                <label for="pais" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Pais</label>
+            <div  class="relative z-0 w-full mb-6 group">
+                <label for="pais" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Pais</label>
+                <select data-paisselect="{{ $client->pais }}" name="pais" id="pais" data-te-select-init data-te-select-filter="true">
+                </select>
                 @error('pais')
+                    <p class="text-red-600 my-2 rounded-lg text-sm p-2 text-center" >{{ $message }}</p>
+                @enderror
+                
+            </div>
+
+            <div  class="relative z-0 w-full mb-6 group">
+                <label for="estado" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Estado</label>
+                <select data-estadoselect="{{ $client->estado }}" name="estado" id="estado" data-te-select-init data-te-select-filter="true">
+                </select>
+                @error('estado')
                     <p class="text-red-600 my-2 rounded-lg text-sm p-2 text-center" >{{ $message }}</p>
                 @enderror
             </div>
 
-            <div class="relative z-0 w-full mb-6 group">
-                <input value="{{ old('ciudad',$client->ciudad) }}" type="text" name="ciudad" id="ciudad" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
-                <label for="ciudad" class="peer-focus:font-medium absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">Ciudad</label>
+            <div  class="relative z-0 w-full mb-6 group">
+                <label for="ciudad" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Ciudad</label>
+                <select data-ciudadselect="{{ $client->ciudad }}" name="ciudad" id="ciudad" data-te-select-init data-te-select-filter="true">
+                </select>
                 @error('ciudad')
                     <p class="text-red-600 my-2 rounded-lg text-sm p-2 text-center" >{{ $message }}</p>
                 @enderror

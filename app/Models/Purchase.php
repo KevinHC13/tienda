@@ -30,4 +30,17 @@ class Purchase extends Model
         return $this->belongsToMany(Product::class, 'purchase_details', 'purchases_id', 'product_id')
                     ->withPivot('add_stock');
     }
+
+    public function create_pdf()
+    {
+        $purchases = Purchase::all();
+
+        $html = view('purchase.report',[
+            'purchases' => $purchases
+        ]);
+
+        $pdf = PDF::loadHTML($html);
+
+        return $pdf->download('reporte_ventas.pdf');
+    }
 }

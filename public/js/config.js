@@ -1,3 +1,3 @@
-var url_base = 'http://kevinhc.me/';
+var url_base = 'http://localhost/';
 
 export { url_base };
