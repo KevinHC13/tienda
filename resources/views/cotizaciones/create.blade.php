@@ -8,7 +8,7 @@
       <div class="rounded-t mb-0 px-0 border-0">
         <div class="px-4 py-2">
           <div class="mt-4 relative w-full max-w-full flex-grow flex-1">
-            <h3 class="ml-6 font-semibold text-base text-gray-900 dark:text-gray-50">Nueva Compra</h3>
+            <h3 class="ml-6 font-semibold text-base text-gray-900 dark:text-gray-50">COTIZACION</h3>
           </div>
 
           <div class="flex justify-center">
@@ -36,6 +36,14 @@
                         </div>
                         
                         <input type="hidden" id="selected-price" name="price" value="{{ old('price') }}">
+
+                        <div class="form-group">
+                            <label for="estado" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Estado de Pago:</label>
+                            <select name="estado" id="estado" data-te-select-init data-te-select-filter="true" >
+                                <option value="PAGADO">Pagado</option>
+                                <option value="NO PAGADO">No Pagado</option>
+                            </select>
+                        </div>
 
                         <div class="relative z-0 w-full mb-6 group">
                             <input value="{{ old('quantity') }}" type="number" name="quantity" id="quantity" class="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer" placeholder=" " required />
@@ -102,6 +110,8 @@
         <table class="m-6 text-left border-collapse w-full">
         <thead>
             <tr>
+                <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Picture</th>
+
                 <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Producto</th>
                 <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Precio</th>
                 <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Cantidad</th>
@@ -115,6 +125,7 @@
         <tbody>
             @foreach ($latestCotizaciones as $cotizacion)
                 <tr>
+                    <td><img src="{{ asset('uploads/' . $cotizacion->picture) }}" alt="Product Image" class="h-20 w-20"></td>
                     <td class="py-4 px-6 border-b border-grey-light">{{ $cotizacion->product_id }}</td>
                     <td class="py-4 px-6 border-b border-grey-light">${{ $cotizacion->price }}</td>
                     <td class="py-4 px-6 border-b border-grey-light">{{ $cotizacion->cantidad }}</td>

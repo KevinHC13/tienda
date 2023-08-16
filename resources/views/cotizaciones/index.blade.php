@@ -39,23 +39,20 @@
                           @if ($cotizaciones->count())
                           @foreach ($cotizaciones as $cotizacion)
                           <tr class="hover:bg-grey-lighter">
-                              <td class="py-4 px-6 border-b border-grey-light"><img class="inline w-24 mr-5" src="{{ asset('uploads/'. $cotizacion->picture ) }}" alt="Imagen"> </td>
-                              <td class="py-4 px-6 border-b border-grey-light">{{$cotizacion->product_id}}</td>
-                              <td class="py-4 px-6 border-b border-grey-light">{{$cotizacion->client_id}}</td>
-                              <td class="py-4 px-6 border-b border-grey-light">{{$cotizacion->referencia}}</td>
-                              <td>
-                                <select name="estatus" id="estatus" data-te-select-init data-te-select-filter="true">
-                                    <option value="pagado"{{ $cotizacion->estatus === 'pagado' ? ' selected' : '' }}>Pagado</option>
-                                    <option value="no pagado"{{ $cotizacion->estatus === 'no pagado' ? ' selected' : '' }}>No Pagado</option>
-                                </select>
-                            </td>                              
+                            <td><img src="{{ asset('uploads/' . $cotizacion->picture) }}" alt="Product Image" class="h-20 w-20"></td>
+                                                       
+                            <td class="py-4 px-6 border-b border-grey-light">{{$cotizacion->product_id}}</td>
+                            <td class="py-4 px-6 border-b border-grey-light">{{$cotizacion->client_id}}</td>
+                            <td class="py-4 px-6 border-b border-grey-light">{{$cotizacion->referencia}}</td>
+                            <td class="py-4 px-6 border-b border-grey-light">{{$cotizacion->estado}}</td>
+                                                      
                             <td class="py-4 px-6 border-b border-grey-light">${{$cotizacion->total}}</td>
                               <td class="py-4 px-6 border-b border-grey-light">
-                                  <a href="{{ route('cotizacion.show', $cotizacion) }}" class="block text-sky-600 font-bold py-1 px-3 rounded text-xs bg-green hover:bg-green-dark">Ver</a>
-                                  <a href="{{ route('cotizacion.edit', $cotizacion) }}" class="text-sky-600 font-bold py-1 px-3 rounded text-xs bg-green hover:bg-green-dark">Editar</a>
-                                  <form action="{{ route('cotizacion.destroy', $cotizacion) }}" method="POST">
-                                      @method('DELETE')
-                                      @csrf
+                                    <form action="{{ route('cotizacion.destroy', $cotizacion->id) }}" method="POST">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="text-red-600 hover:text-red-800">Eliminar</button>
+                                    </form>
                                   </form>
                               </td>
                           </tr>

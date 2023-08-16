@@ -22,6 +22,8 @@ return new class extends Migration
             $table->string('referencia');
             $table->string('descripcion');
             $table->float('price');
+            $table->string('picture');
+            $table->string('estado');
             
       
            

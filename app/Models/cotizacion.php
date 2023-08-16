@@ -18,6 +18,8 @@ class cotizacion extends Model
         'referencia',
         'descripcion',
         'price',
+        'picture',
+        'estado',
         
         
 
