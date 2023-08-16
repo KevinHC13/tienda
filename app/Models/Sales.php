@@ -12,25 +12,24 @@ class Sales extends Model
         'client_id',
         'invoice_id',
         'code',
+        'pay',
+        'status',
         'total',
+        'partial_payment',
+        'pending_payment',
         'user_id'
     ];
 
     public function user()
     {
-        return $this->belongsTo(User::class, 'user_id', 'id');
-    }
-    
-    public function client()
-    {
-        return $this->belongsTo(Client::class, 'client_id');
+        $this->belongsTo(User::class);
     }
 
-
-    public function detalles()
+    public function invoice()
     {
-        return $this->hasMany(SaleDetails::class, 'sales_id', 'id');
+        $this->belongsTo(Invoices::class);
     }
+<<<<<<< HEAD
     public function productos()
     {
         return $this->belongsToMany(Product::class, 'sale_details', 'sales_id', 'product_id')
@@ -43,4 +42,6 @@ class Sales extends Model
     }
 
 
+=======
+>>>>>>> 13c7648caf3a7acca2b96373cc3b65bcf46af53f
 }

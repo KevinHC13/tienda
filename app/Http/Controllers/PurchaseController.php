@@ -5,14 +5,13 @@ namespace App\Http\Controllers;
 use App\Models\Product;
 use App\Models\Provedor;
 use App\Models\Purchase;
-use App\Models\PurchaseDetails;
 use Illuminate\Http\Request;
+
 use Illuminate\Validation\ValidationException;
 use Carbon\Carbon;
 use PDF;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-
 
 
 class PurchaseController extends Controller
@@ -36,11 +35,9 @@ class PurchaseController extends Controller
     {
         // Selecciona todos los proveedores para elegir uno en la visa
         $provedores = Provedor::all();
-        $products = Product::all();
         //devuelve la vista purchase.create
         return view('purchase.create',[
             'provedores' => $provedores,
-            'products' => $products,
         ]);
   
     }
@@ -48,62 +45,30 @@ class PurchaseController extends Controller
     // Crea un nuevo registro de la compra
     public function store(Request $request)
     {
-        try{
-            $this->validate($request, [
-                'provedor_id' => 'required',
-                'code' => 'required|integer|unique:purchases',        
-                'date' => 'required', 
-            ]);
-        }catch(ValidationException $e){
-            return response()->json(['message' => 'Error en los campos', 'errors' => $e->errors()], 422);
-        }
+        $this->validate($request, [
+            'provedor_id' => 'required',
+            'code' => 'required|integer|unique:purchases',        
+            'tota' => 'required', 
+            'pagado' => 'required',
+        ]);
 
-        $products = $request->json('products');
-
-        if($products)
+        if($request->pagado > $request->tota)
         {
-        try
-        {
-            $purchase = Purchase::create([
-                'provedor_id' => $request->provedor_id,
-                'code' => $request->code,
-                'date' => $request->date,
-                'tota' => $request->total,
-            ]);
-        }catch(ValidationException $e){
-            return response()->json(['message' => 'Error al crear la compra', 'errors' => $e->errors()], 422);
+           // Redireccionar de vuelta a la página anterior con un mensaje de error
+            return back()->with('mensaje', 'No puede pagar mas que el total');
         }
 
-            foreach ($products as $productId => $quantity) {
-                try
-                {
-                    PurchaseDetails::create([
-                        'purchases_id' => $purchase->id,
-                        'product_id' => $productId,
-                        'add_stock' => $quantity,
-                    ]);
-                }catch(ValidationException $e){
-                    return response()->json(['message' => 'Error al crear los productos', 'errors' => $e->errors()], 422);
-                }
+        Purchase::create([
+            'provedor_id' => $request->provedor_id,
+            'code' => $request->code ,
+            'estatus' => ($request->tota == $request->pagado) ? "Pagado" : "Pendiente" ,
+            'tota' => $request->tota ,
+            'pagado' => $request->pagado ,
+            'pendiente' => $request->tota - $request->pagado ,
+            'estatus_pago' => ($request->tota == $request->pagado) ? "Pagado" : "Pendiente" ,
+        ]);
         
-               try
-               {
-                $product_register = Product::find($productId);
-
-                if ($product_register) {
-                    $product_register->stock = $product_register->stock + $quantity;
-                    $product_register->save();
-                } 
-               }catch(ValidationException $e){
-                return response()->json(['message' => 'Error al sumar el stock', 'errors' => $e->errors()], 422);
-            }
-                
-            }
-        }
-        
-
-        
-        return response()->json($request);
+        return redirect()->route('purchase.index');
     }
 
     // Elimina la compra pasada como parametro
@@ -153,11 +118,8 @@ class PurchaseController extends Controller
     // Muestra la informacion general de la compra
     public function show(Purchase $purchase)
     {
-        $fecha = Carbon::createFromFormat('Y-m-d H:i:s', $purchase->date)->format('d/m/Y');
-        
         return view('purchase.show',[
-            'purchase' => $purchase,
-            'fecha' => $fecha
+            'purchase' => $purchase
         ]);
     }
 

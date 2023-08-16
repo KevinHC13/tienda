@@ -8,8 +8,9 @@
     <div class=" flex flex-wrap items-center px-4 py-2">
       <div class=" border-b-2 relative w-full max-w-full flex-grow flex-1">
         <div class="m-5 flex justify-between">
-            <h3 class=" ml-6 font-semibold text-base text-gray-900 dark:text-gray-50">Detalles de venta: {{ $sale->code }}</h3>
+            <h3 class=" ml-6 font-semibold text-base text-gray-900 dark:text-gray-50">Detalles de venta: SL0101</h3>
             <div class="flex ">
+
                 <a href="{{ route('returns.create' , $sale) }}"  class="mr-5">
                   <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M9 15L3 9m0 0l6-6M3 9h12a6 6 0 010 12h-3" />
@@ -111,20 +112,20 @@
         <div>
             <p class="text-blue-400">Informacion de Cliente</p>
             <ul>
-                <li>{{ $sale->client->name }}</li>
-                <li>{{ $sale->client->email }}</li>
-                <li>{{ $sale->client->telefono }}</li>
-                <li>{{ $sale->client->direccion }}</li>
+                <li>Walk-in-cusomer</li>
+                <li>walk-in-cosumer@example.com</li>
+                <li>123456780</li>
+                <li>N45. Dhaka</li>
             </ul>
         </div>
         <div>
+
             <p class="text-blue-400">Informacion de Factura</p>
+
             <ul>
-                <li>Referencia: {{ $sale->code }}</li>
-                <li>Vendendor: {{ $sale->user->username }}</li>
-                <li>Subtotal: $ {{ $sale->total * .84 }}</li>
-                <li>IVA: $ {{ $sale->total * .16 }}</li>
-                <li>Total: $ {{ $sale->total }}</li>
+                <li>Referencia: SL0101</li>
+                <li>Estado del pago: Pagado</li>
+                <li>Estado: Completo</li>
             </ul>
         </div>
       
@@ -132,25 +133,24 @@
     <div class=" w-full overflow-x-auto">
       <div class="table-responsive">
         <table class="m-6 w-full text-left border-collapse">
+
             <thead>
               <tr>
                 <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Nombre de Producto</th>
                 <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Precio</th>
-                <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Cantidad</th>
-                <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">IVA</th>
+                <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Descuento</th>
+                <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">TAX</th>
                 <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Subtotal</th>
             </thead>
             <tbody>
-              @foreach ($sale->detalles as $detail)
                 <tr class="hover:bg-grey-lighter">
-                  <td class="py-4 px-6 border-b border-grey-light"><img class="w-24 inline mr-5" src="{{ asset('uploads/'.$detail->producto->picture) }}" alt="Imagen de producto"> <p class="inline">{{ $detail->producto->name }}</p></td>
-                  <td class="py-4 px-6 border-b border-grey-light">$ {{ $detail->producto->sale_price }}</td>
-                  <td class="py-4 px-6 border-b border-grey-light">{{ $detail->quantity }}</td>
-                  <td class="py-4 px-6 border-b border-grey-light">$ {{ $detail->producto->sale_price * $detail->quantity * .16 }}</td>
-                  <td class="py-4 px-6 border-b border-grey-light">$ {{ $detail->producto->sale_price * $detail->quantity }}</td>
-
-                </tr>
-              @endforeach
+                  <td class="py-4 px-6 border-b border-grey-light"><img class="w-1/5 inline mr-5" src="{{ asset('uploads/5b05a635-75eb-4aa3-8b32-5466643ad058.jpg') }}" alt="Imagen de producto"> <p class="inline">Producto 1</p></td>
+                  <td class="py-4 px-6 border-b border-grey-light">402.22</td>
+                  <td class="py-4 px-6 border-b border-grey-light">0.00</td>
+                  <td class="py-4 px-6 border-b border-grey-light">0.00</td>
+                  <td class="py-4 px-6 border-b border-grey-light">402.22</td>
+                  
+                </tr>        
             </tbody>
           </table>
     </div>
@@ -159,11 +159,6 @@
   <div class="m-6">
 
   </div>
-</div>
-</div>
-<div class="m-6">
-    <a type="button" href="{{ route('sale.index') }}" class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800">Cancelar</a>    
-</div>  
 </div>
 <!-- ./Social Traffic -->
 </div>

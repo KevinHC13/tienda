@@ -26,7 +26,6 @@
           <table class="m-6 text-left border-collapse w-full">
         <thead>
           <tr>
-            <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Foto</th>
             <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Nombre de Categoria</th>
             <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Codigo</th>
             <th class="py-4 px-6 bg-grey-lightest font-bold uppercase text-sm text-grey-dark border-b border-grey-light">Descripcion</th>
@@ -38,7 +37,6 @@
           @if ($categories->count())
               @foreach ($categories as $category)
                 <tr class="hover:bg-grey-lighter">
-                  <td class="py-4 px-6 border-b border-grey-light"><img class="w-24 inline mr-5" src="{{ asset('uploads/'. $category->picture ) }}" alt="Imagen de perfil Cliente"> </td>
                   <td class="py-4 px-6 border-b border-grey-light"> {{ $category->name }}</td>
                   <td class="py-4 px-6 border-b border-grey-light">{{ $category->code }}</td>
                   <td class="py-4 px-6 border-b border-grey-light">{{ $category->description }}</td>

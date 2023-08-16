@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\SaleDetails;
 use App\Models\Sales;
 use Illuminate\Http\Request;
+
 use Illuminate\Validation\ValidationException;
 use Illuminate\Support\Str;
 use PDF;
@@ -42,6 +43,7 @@ class SalesController extends Controller
      */
     public function create()
     {
+
         $categories = Category::all();
         $clients = Client::all();
 
@@ -126,6 +128,7 @@ class SalesController extends Controller
         return view('sale.show', [
             'sale' => $sale
         ]);
+
     }
 
     /**
