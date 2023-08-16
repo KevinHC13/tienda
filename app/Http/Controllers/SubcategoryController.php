@@ -12,9 +12,14 @@ class SubcategoryController extends Controller
     {
         $this->middleware('auth');
     }
+
+    /**
+     * Muestra la lista de subcategorías paginada.
+     *
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
-        // Obtiene todas las subcategorias
         $subcategories = Subcategory::paginate(10);
 
         return view('subcategory.index', [
@@ -22,16 +27,26 @@ class SubcategoryController extends Controller
         ]);
     }
 
+    /**
+     * Muestra el formulario para crear una nueva subcategoría.
+     *
+     * @return \Illuminate\View\View
+     */
     public function create()
     {
-       
         $categories = Category::all();
-        //devuelve la vista subcategory.create
+        
         return view('subcategory.create', [
             'categories' => $categories
         ]);
     }
 
+    /**
+     * Almacena una nueva subcategoría en la base de datos.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
         $this->validate($request, [
@@ -41,8 +56,7 @@ class SubcategoryController extends Controller
             'picture' => 'required'
         ]);
 
-        // Valida los datos enviados por el usuario
-        Subcategory::create([ 
+        Subcategory::create([
             'name' => $request->name,
             'code' => $request->code,
             'description' => $request->description,
@@ -50,59 +64,77 @@ class SubcategoryController extends Controller
             'user_id' => auth()->user()->id,
             'picture' => $request->picture
         ]);
-        // Redirige al usuario a la página de listado de subcategorias
 
         return redirect()->route('subcategory.index');
     }
 
+    /**
+     * Muestra los detalles de una subcategoría específica.
+     *
+     * @param  \App\Models\Subcategory  $subcategory
+     * @return \Illuminate\View\View
+     */
     public function show(Subcategory $subcategory)
     {
-        // Devuelve la vista subcategory.show
-        return view('subcategory.show',[
+        return view('subcategory.show', [
             'subcategory' => $subcategory
         ]);
     }
 
+    /**
+     * Elimina una subcategoría específica.
+     *
+     * @param  \App\Models\Subcategory  $subcategory
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destroy(Subcategory $subcategory)
     {
-        // Elimina la subcategoria
         $subcategory->delete();
-        //
+
         return redirect()->route('subcategory.index');
     }
 
+    /**
+     * Muestra el formulario para editar una subcategoría existente.
+     *
+     * @param  \App\Models\Subcategory  $subcategory
+     * @return \Illuminate\View\View
+     */
     public function edit(Subcategory $subcategory)
     {
-       
         $categories = Category::all();
-         // Devuelve la vista subcategory.edit
+
         return view('subcategory.edit', [
             'categories' => $categories,
             'subcategory' => $subcategory
         ]);
     }
 
+    /**
+     * Actualiza una subcategoría existente en la base de datos.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Subcategory  $subcategory
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request, Subcategory $subcategory)
     {
-        // Valida los datos enviados por el usuario
         $this->validate($request, [
             'name' => 'required|max:255',
             'code' => 'required|max:10',
             'description' => 'required|max:255',
             'category_id' => 'required',
             'picture' => 'required'
-
         ]);
-        // Actualiza la subcategoria
+
         $subcategory->name = $request->name;
         $subcategory->code = $request->code;
         $subcategory->description = $request->description;
         $subcategory->category_id = $request->category_id;
         $subcategory->picture = $request->picture;
-        //guarda los datos
-        $subcategory->save();
-        // Redirige al usuario a la página de listado de subcategorias
-        return redirect()->route('subcategory.index');
 
+        $subcategory->save();
+
+        return redirect()->route('subcategory.index');
     }
 }

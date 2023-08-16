@@ -94,7 +94,7 @@
       <p class="mt-0.5 text-sm text-gray-500">Haga click en el boton para terminar la venta.</p>
       <div class="mt-6">
         <a href="#" data-submitButton class="flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-6 py-3 text-base font-medium text-white shadow-sm hover:bg-indigo-700">
-          Terminar Compra
+          Terminar Cotizacion
         </a>
       </div>
       <div class="mt-6 flex justify-center text-center text-sm text-gray-500">

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 
 class LoginController extends Controller
@@ -18,6 +19,11 @@ class LoginController extends Controller
             'email' => 'required|email',
             'password' => 'required',
         ]);
+        $user = User::where('email', $request->email)->first();
+
+        if($user->estatus != 1){
+            return back()->with('mensaje', 'Cuenta bloqueada');
+        }
 
         // Intentar iniciar sesión con las credenciales proporcionadas
         if (!auth()->attempt($request->only('email', 'password'), $request->remember)) {

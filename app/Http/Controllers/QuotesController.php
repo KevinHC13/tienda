@@ -13,7 +13,6 @@ use Illuminate\Support\Str;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-
 class QuotesController extends Controller
 {
     public function __construct()
@@ -23,10 +22,9 @@ class QuotesController extends Controller
 
     public function index()
     {
-        //obtiene todos las cotizaciones
         $quotes = Quotes::paginate(10);
     
-        return view('quotes.index',[
+        return view('quotes.index', [
             'quotes' => $quotes
         ]);
     }
@@ -36,7 +34,7 @@ class QuotesController extends Controller
         $categories = Category::all();
         $clients = Client::all();
 
-        return view('quotes.create',[
+        return view('quotes.create', [
             'categories' => $categories,
             'clients' => $clients,
         ]);
@@ -44,16 +42,15 @@ class QuotesController extends Controller
 
     public function store(Request $request)
     {
-        try{
+        try {
             $this->validate($request, [
                 'client_id' => 'required',     
                 'products' => 'required', 
             ]);
-        }catch(ValidationException $e){
+        } catch (ValidationException $e) {
             return response()->json(['message' => 'Debe seleccionar al menos un producto y un cliente', 'errors' => $e->errors()], 422);
         }
         
-
         $products = $request->json('products');
         $uuid = Str::uuid(); // Genera un UUID único
         $id = $uuid->toString(); // Convierte el UUID en una cadena para usarlo como ID
@@ -63,8 +60,6 @@ class QuotesController extends Controller
             'code' => $id,
             'total' => $request->total,
             'user_id' => auth()->user()->id,
-
-
         ]);
 
         foreach ($products as $product_id => $product) {
@@ -73,15 +68,14 @@ class QuotesController extends Controller
                 'product_id' => $product['id'],
                 'quantity' => $product['added'],
             ]);
-    
         }
 
         return response()->json($request);
     }
 
-    public function show( Quotes $quote)
+    public function show(Quotes $quote)
     {
-        return view('quotes.show',[
+        return view('quotes.show', [
             'quote' => $quote
         ]);
     }
@@ -116,10 +110,10 @@ class QuotesController extends Controller
         $sheet->setCellValue('B11', $quote->total);
 
         // Productos
-        $sheet->setCellValue('A12','Producto');
-        $sheet->setCellValue('B12','Cantidad');
-        $sheet->setCellValue('C12','Precio Unitario');
-        $sheet->setCellValue('D12','Total');
+        $sheet->setCellValue('A12', 'Producto');
+        $sheet->setCellValue('B12', 'Cantidad');
+        $sheet->setCellValue('C12', 'Precio Unitario');
+        $sheet->setCellValue('D12', 'Total');
 
         $row = 13;
         foreach ($quote->detalles as $detail) {
@@ -139,7 +133,5 @@ class QuotesController extends Controller
          header('Cache-Control: max-age=0');
      
          $writer->save('php://output');
-     
-
     }
 }

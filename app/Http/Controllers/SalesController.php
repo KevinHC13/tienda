@@ -14,57 +14,69 @@ use PDF;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-
 class SalesController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
     }
+    
+    /**
+     * Muestra la lista de ventas paginada.
+     *
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
-        //obtiene todos las ventas
         $sales = Sales::paginate(10);
-    
-        return view('sale.index',[
+
+        return view('sale.index', [
             'sales' => $sales
         ]);
     }
 
+    /**
+     * Muestra el formulario para crear una nueva venta.
+     *
+     * @return \Illuminate\View\View
+     */
     public function create()
     {
-        //devuelve la vista sale.create
         $categories = Category::all();
         $clients = Client::all();
 
-        return view('sale.create',[
+        return view('sale.create', [
             'categories' => $categories,
             'clients' => $clients,
         ]);
     }
 
+    /**
+     * Almacena una nueva venta en la base de datos.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function store(Request $request)
     {
-        try{
+        try {
             $this->validate($request, [
-                'client_id' => 'required',     
-                'products' => 'required', 
+                'client_id' => 'required',
+                'products' => 'required',
             ]);
-        }catch(ValidationException $e){
+        } catch (ValidationException $e) {
             return response()->json(['message' => 'Debe seleccionar al menos un producto y un cliente', 'errors' => $e->errors()], 422);
         }
 
         $products = $request->json('products');
-        $uuid = Str::uuid(); // Genera un UUID único
-        $id = $uuid->toString(); // Convierte el UUID en una cadena para usarlo como ID
+        $uuid = Str::uuid();
+        $id = $uuid->toString();
 
         $sale = Sales::create([
             'client_id' => $request->client_id,
             'code' => $id,
             'total' => $request->total,
             'user_id' => auth()->user()->id,
-
-
         ]);
 
         foreach ($products as $product_id => $product) {
@@ -73,11 +85,11 @@ class SalesController extends Controller
                 'product_id' => $product['id'],
                 'quantity' => $product['added'],
             ]);
-    
+
             $product_register = Product::find($product['id']);
-    
+
             if ($product_register) {
-                $product_register->stock = $product_register->stock - $product['added']; // Usar $product['added']
+                $product_register->stock = $product_register->stock - $product['added'];
                 $product_register->save();
             }
         }
@@ -85,32 +97,47 @@ class SalesController extends Controller
         return response()->json($request);
     }
 
-
+    /**
+     * Obtiene la lista de productos según la categoría seleccionada.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getProducts(Request $request)
     {
-        if($request->category_id == 0)
-        {
+        if ($request->category_id == 0) {
             $products = Product::all();
-        }else{
-            $products = Product::where('category_id',$request->category_id)->get();
-
+        } else {
+            $products = Product::where('category_id', $request->category_id)->get();
         }
+
         $products = $products->toJson();
         return response()->json($products);
     }
 
-    public function show( Sales $sale)
+    /**
+     * Muestra los detalles de una venta específica.
+     *
+     * @param  \App\Models\Sales  $sale
+     * @return \Illuminate\View\View
+     */
+    public function show(Sales $sale)
     {
-        return view('sale.show',[
+        return view('sale.show', [
             'sale' => $sale
         ]);
     }
 
+    /**
+     * Crea y descarga un archivo PDF con el reporte de ventas.
+     *
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
     public function create_pdf()
     {
         $sales = Sales::all();
 
-        $html = view('sale.report',[
+        $html = view('sale.report', [
             'sales' => $sales
         ]);
 
@@ -119,6 +146,11 @@ class SalesController extends Controller
         return $pdf->download('reporte_ventas.pdf');
     }
 
+    /**
+     * Crea y descarga un archivo XLSX con el reporte de ventas.
+     *
+     * @return \Symfony\Component\HttpFoundation\StreamedResponse
+     */
     public function create_xlsx()
     {
         $sales = Sales::all();
@@ -127,17 +159,17 @@ class SalesController extends Controller
         $sheet = $spreadsheet->getActiveSheet();
 
         // Titulos
-        $sheet->setCellValue('A1','Vendedor');
-        $sheet->setCellValue('B1','Fecha');
-        $sheet->setCellValue('C1','Referencia');
-        $sheet->setCellValue('D1','Productos');
-        $sheet->setCellValue('E1','Cliente');
-        $sheet->setCellValue('F1','Total');
-        $sheet->setCellValue('G1','Facturador');
-        
+        $sheet->setCellValue('A1', 'Vendedor');
+        $sheet->setCellValue('B1', 'Fecha');
+        $sheet->setCellValue('C1', 'Referencia');
+        $sheet->setCellValue('D1', 'Productos');
+        $sheet->setCellValue('E1', 'Cliente');
+        $sheet->setCellValue('F1', 'Total');
+        $sheet->setCellValue('G1', 'Facturador');
+
         $row = 2;
-        
-        foreach($sales as $sale){
+
+        foreach ($sales as $sale) {
             $sheet->setCellValue('A' . $row, $sale->user->username);
             $sheet->setCellValue('B' . $row, $sale->created_at);
             $sheet->setCellValue('C' . $row, $sale->code);
@@ -148,23 +180,12 @@ class SalesController extends Controller
             $row++;
         }
 
-
         // Crear el archivo y descargarlo
-         $writer = new Xlsx($spreadsheet);
-         $filename = 'reporte_ventas.xlsx';
-        
-         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-         header('Content-Disposition: attachment;filename="' . $filename . '"');
-         header('Cache-Control: max-age=0');
-     
-         $writer->save('php://output');
-     
+        $writer = new Xlsx($spreadsheet);
+        $filename = 'reporte_ventas.xlsx';
 
+        return response()->streamDownload(function () use ($writer) {
+            $writer->save('php://output');
+        }, $filename);
     }
-
-
-
-
-    
-
 }

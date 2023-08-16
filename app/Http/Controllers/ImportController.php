@@ -8,15 +8,24 @@ use Illuminate\Support\Facades\Storage;
 
 use Illuminate\Http\Request;
 
-use function PHPSTORM_META\type;
-
 class ImportController extends Controller
 {
+    /**
+     * Muestra el formulario para cargar un archivo CSV.
+     *
+     * @return \Illuminate\View\View
+     */
     public function create()
     {
         return view('import.create');
     }
 
+    /**
+     * Almacena los productos a partir de un archivo CSV cargado por el usuario.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
         // Validar y manejar la carga del archivo CSV
@@ -24,7 +33,6 @@ class ImportController extends Controller
             $path = $request->file('archivo_csv')->getRealPath();
             $contenido = file_get_contents($path);
 
-            
             // Lectura de contenido línea por línea:
             $lineas = explode("\n", $contenido);
             
@@ -35,23 +43,23 @@ class ImportController extends Controller
                 $campos = str_getcsv($linea);
 
                 // Verificar si la línea tiene suficientes campos
-            if (count($campos) >= 7) {
-                $product = Product::create([
-                    'name' => $campos[0],
-                    'purchase_price' => intval($campos[1]),
-                    'sale_price' => intval($campos[2]),
-                    'stock' => $campos[3],
-                    'picture' => "",
-                    'user_id' => auth()->user()->id,
-                    'category_id' => $campos[4],
-                    'brand_id' => $campos[6],
-                ]);
+                if (count($campos) >= 7) {
+                    $product = Product::create([
+                        'name' => $campos[0],
+                        'purchase_price' => intval($campos[1]),
+                        'sale_price' => intval($campos[2]),
+                        'stock' => $campos[3],
+                        'picture' => "",
+                        'user_id' => auth()->user()->id,
+                        'category_id' => $campos[4],
+                        'brand_id' => $campos[6],
+                    ]);
 
-                if(!($campos[5] == "")){
-                    $product->subcategory_id = intval($campos[5]);
-                    $product->save();
+                    if (!empty($campos[5])) {
+                        $product->subcategory_id = intval($campos[5]);
+                        $product->save();
+                    }
                 }
-            }
                 // Aquí puedes realizar operaciones con los campos de cada línea.
             }
 
@@ -61,11 +69,14 @@ class ImportController extends Controller
         return response()->json(['messaje' => 'no se agregaron productos', 'error' => 'Debe añadir un producto']);
     }
 
-
-
+    /**
+     * Descarga un archivo CSV de ejemplo con encabezados.
+     *
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
     public function download()
     {
-        $csvContent = "name,purchase_price,sale_price,stock,picture,category_id,subcategory_id,brand_id\nDante2,123,333,4,null,2,null,1,\n"; // Contenido de ejemplo
+        $csvContent = "name,purchase_price,sale_price,stock,category_id,subcategory_id,brand_id\nDante2,123,333,4,2,null,1,\n"; // Contenido de ejemplo
 
         $headers = [
             'Content-Type' => 'text/csv',

@@ -13,40 +13,55 @@ use PDF;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 
-
-
 class ProductController extends Controller
 {
     public function __construct()
     {
         $this->middleware('auth');
     }
+
+    /**
+     * Muestra una lista paginada de productos.
+     *
+     * @return \Illuminate\View\View
+     */
     public function index()
     {
-        //obtiene todos los productos
+        // Obtiene todos los productos paginados
         $products = Product::paginate(10);
 
-        return view('product.index',[
+        return view('product.index', [
             'products' => $products,
         ]);
     }
 
+    /**
+     * Muestra el formulario para crear un nuevo producto.
+     *
+     * @return \Illuminate\View\View
+     */
     public function create()
     {
         $categories = Category::all();
         $subcategories = Subcategory::all();
         $brands = Brand::all();
-        //devuelve  la vista product.create
-        return view('product.create',[
+        // Devuelve la vista product.create con datos necesarios
+        return view('product.create', [
             'categories' => $categories,
             'subcategories' => $subcategories,
-            'brands' => $brands
+            'brands' => $brands,
         ]);
     }
 
+    /**
+     * Almacena un nuevo producto en la base de datos.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function store(Request $request)
     {
-        //valida los datos enviados por el usuario
+        // Valida los datos enviados por el usuario
         $this->validate($request, [
             'name' => 'required|max:255',
             'purchase_price' => 'required|numeric|min:0',
@@ -54,11 +69,10 @@ class ProductController extends Controller
             'stock' => 'required|numeric|min:0',
             'category_id' => 'required',
             'brand_id' => 'required',
-            'picture' => 'required'
+            'picture' => 'required',
         ]);
-        
 
-        //crea un nuevo producto con los datos enviados por el usuario
+        // Crea un nuevo producto con los datos enviados por el usuario
         Product::create([
             'picture' => $request->picture,
             'name' => $request->name,
@@ -69,51 +83,76 @@ class ProductController extends Controller
             'category_id' => $request->category_id,
             'subcategory_id' => $request->subcategory_id,
             'brand_id' => $request->brand_id,
-            
         ]);
-        //redirige al usuario a la pagina de listado de productos
+
+        // Redirige al usuario a la página de listado de productos
         return redirect()->route('product.index');
     }
 
-    public function show(Product $product){
-        //devuelve la vista de product.show
-        return view('product.show',[
-            'product' => $product
+    /**
+     * Muestra los detalles de un producto específico.
+     *
+     * @param  \App\Models\Product  $product
+     * @return \Illuminate\View\View
+     */
+    public function show(Product $product)
+    {
+        // Devuelve la vista product.show con el producto
+        return view('product.show', [
+            'product' => $product,
         ]);
     }
 
+    /**
+     * Elimina un producto específico de la base de datos.
+     *
+     * @param  \App\Models\Product  $product
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function destroy(Product $product)
     {
-        //elimina el producto
+        // Elimina el producto
         $product->delete();
-        //elimina la imagen de producto
+        // Elimina la imagen del producto
         $imagen_path = public_path('uploads/' . $product->picture);
 
-        if(File::exists($imagen_path)){
+        if (File::exists($imagen_path)) {
             unlink($imagen_path);
         }
-        //redirige al usuario a la pagina de listado de productos
+        // Redirige al usuario a la página de listado de productos
         return redirect()->route('product.index');
     }
 
+    /**
+     * Muestra el formulario para editar un producto específico.
+     *
+     * @param  \App\Models\Product  $product
+     * @return \Illuminate\View\View
+     */
     public function edit(Product $product)
     {
         $categories = Category::all();
         $subcategories = Subcategory::all();
         $brands = Brand::all();
-        //devuelve la vista del product.edit
-        return view('product.edit',[
+        // Devuelve la vista product.edit con el producto y datos necesarios
+        return view('product.edit', [
             'categories' => $categories,
             'subcategories' => $subcategories,
             'brands' => $brands,
-            'product' => $product
+            'product' => $product,
         ]);
-
     }
 
+    /**
+     * Actualiza un producto específico en la base de datos.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Product  $product
+     * @return \Illuminate\Http\RedirectResponse
+     */
     public function update(Request $request, Product $product)
     {
-        //valida los datos enviados por el usuario
+        // Valida los datos enviados por el usuario
         $this->validate($request, [
             'name' => 'required|max:255',
             'purchase_price' => 'required|numeric|min:0',
@@ -121,9 +160,10 @@ class ProductController extends Controller
             'stock' => 'required|numeric|min:0',
             'category_id' => 'required',
             'brand_id' => 'required',
-            'picture' => 'required'
+            'picture' => 'required',
         ]);
-        //actualiza el producto con los datos enviados por el usuario
+
+        // Actualiza el producto con los datos enviados por el usuario
         $product->picture = $request->picture;
         $product->name = $request->name;
         $product->purchase_price = $request->purchase_price;
@@ -133,26 +173,37 @@ class ProductController extends Controller
         $product->category_id = $request->category_id;
         $product->subcategory_id = $request->subcategory_id;
         $product->brand_id = $request->brand_id;
-        //guarda los cambios
+        // Guarda los cambios
         $product->save();
-        //devuelve la vista de product.show
+        // Redirige al usuario a la página de listado de productos
         return redirect()->route('product.index');
-
     }
 
+    /**
+     * Obtiene las subcategorías de una categoría específica.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Category  $category
+     * @return \Illuminate\Http\JsonResponse
+     */
     public function getSubcategories(Request $request, Category $category)
     {
         $subcategories = $category->subcategories->pluck('name', 'id');
-        
+
         return response()->json(['subcategories' => $subcategories]);
     }
 
+    /**
+     * Crea y descarga un archivo PDF con el inventario de productos.
+     *
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
     public function create_pdf()
     {
         $products = Product::all();
 
-        $html = view('product.report',[
-            'products' => $products
+        $html = view('product.report', [
+            'products' => $products,
         ]);
 
         $pdf = PDF::loadHTML($html);
@@ -160,6 +211,11 @@ class ProductController extends Controller
         return $pdf->download('reporte_inventario.pdf');
     }
 
+    /**
+     * Crea y descarga un archivo XLSX con el inventario de productos.
+     *
+     * @return \Symfony\Component\HttpFoundation\BinaryFileResponse
+     */
     public function create_xlsx()
     {
         $products = Product::all();
@@ -167,19 +223,19 @@ class ProductController extends Controller
         $spreadsheet = new Spreadsheet();
         $sheet = $spreadsheet->getActiveSheet();
 
-        // Titulos
-        $sheet->setCellValue('A1','Nombre');
-        $sheet->setCellValue('B1','Precio de compra');
-        $sheet->setCellValue('C1','Precio de venta');
-        $sheet->setCellValue('D1','Stock');
-        $sheet->setCellValue('E1','Categoria');
-        $sheet->setCellValue('F1','Subcategoria');
-        $sheet->setCellValue('G1','Marca');
-        $sheet->setCellValue('H1','Agregado por');
-        
+        // Títulos
+        $sheet->setCellValue('A1', 'Nombre');
+        $sheet->setCellValue('B1', 'Precio de compra');
+        $sheet->setCellValue('C1', 'Precio de venta');
+        $sheet->setCellValue('D1', 'Stock');
+        $sheet->setCellValue('E1', 'Categoria');
+        $sheet->setCellValue('F1', 'Subcategoria');
+        $sheet->setCellValue('G1', 'Marca');
+        $sheet->setCellValue('H1', 'Agregado por');
+
         $row = 2;
-        
-        foreach($products as $product){
+
+        foreach ($products as $product) {
             $sheet->setCellValue('A' . $row, $product->name);
             $sheet->setCellValue('B' . $row, $product->purchase_price);
             $sheet->setCellValue('C' . $row, $product->sale_price);
@@ -191,17 +247,14 @@ class ProductController extends Controller
             $row++;
         }
 
-
         // Crear el archivo y descargarlo
-         $writer = new Xlsx($spreadsheet);
-         $filename = 'reporte_inventario.xlsx';
-        
-         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-         header('Content-Disposition: attachment;filename="' . $filename . '"');
-         header('Cache-Control: max-age=0');
-     
-         $writer->save('php://output');
-     
+        $writer = new Xlsx($spreadsheet);
+        $filename = 'reporte_inventario.xlsx';
 
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+
+        $writer->save('php://output');
     }
 }

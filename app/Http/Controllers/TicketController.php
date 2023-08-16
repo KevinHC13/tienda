@@ -7,12 +7,18 @@ use Illuminate\Http\Request;
 use PDF;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 class TicketController extends Controller
 {
+    /**
+     * Genera y descarga un PDF del ticket de venta.
+     *
+     * @param  \App\Models\Sales  $sale
+     * @return \Illuminate\Http\Response
+     */
     public function create_pdf(Sales $sale)
     {
-
-        $html = view('ticket.index',[
+        $html = view('ticket.index', [
             'sale' => $sale
         ]);
 
@@ -21,6 +27,12 @@ class TicketController extends Controller
         return $pdf->download($sale->code . '.pdf');
     }
 
+    /**
+     * Genera y descarga un archivo XML del ticket de venta.
+     *
+     * @param  \App\Models\Sales  $sale
+     * @return \Illuminate\Http\Response
+     */
     public function create_xml(Sales $sale)
     {
         $xml = new \SimpleXMLElement('<root/>');
@@ -37,29 +49,33 @@ class TicketController extends Controller
         $xml->factura->addChild('iva', $sale->total * 0.16);
         $xml->factura->addChild('total', $sale->total);
 
-
         $xml->addChild('products');
-        foreach($sale->detalles as $detail){
+        foreach ($sale->detalles as $detail) {
             $productXml = $xml->products->addChild('product');
             $productXml->addChild('name', $detail->producto->name);
             $productXml->addChild('quantity', $detail->quantity);
             $productXml->addChild('sale_price', $detail->producto->sale_price);
-            $productXml->addChild('total', $detail->producto->sale_price * $detail->quantity );
-
+            $productXml->addChild('total', $detail->producto->sale_price * $detail->quantity);
         }
-        
+
         $xmlContent = $xml->asXML();
 
         $headers = [
             'Content-Disposition' => 'attachment; filename=cliente.xml',
             'Content-Type' => 'text/xml',
         ];
-    
+
         return response()->streamDownload(function () use ($xmlContent) {
             echo $xmlContent;
-        }, $sale->code.'.xml', $headers);
+        }, $sale->code . '.xml', $headers);
     }
 
+    /**
+     * Genera y descarga un archivo XLSX del ticket de venta.
+     *
+     * @param  \App\Models\Sales  $sale
+     * @return \Illuminate\Http\Response
+     */
     public function exportXlsx(Sales $sale)
     {
         $spreadsheet = new Spreadsheet();
@@ -90,10 +106,10 @@ class TicketController extends Controller
         $sheet->setCellValue('B11', $sale->total);
 
         // Productos
-        $sheet->setCellValue('A12','Producto');
-        $sheet->setCellValue('B12','Cantidad');
-        $sheet->setCellValue('C12','Precio Unitario');
-        $sheet->setCellValue('D12','Total');
+        $sheet->setCellValue('A12', 'Producto');
+        $sheet->setCellValue('B12', 'Cantidad');
+        $sheet->setCellValue('C12', 'Precio Unitario');
+        $sheet->setCellValue('D12', 'Total');
 
         $row = 13;
         foreach ($sale->detalles as $detail) {
@@ -105,15 +121,13 @@ class TicketController extends Controller
         }
 
         // Crear el archivo y descargarlo
-         $writer = new Xlsx($spreadsheet);
-         $filename = $sale->code . '.xlsx';
-        
-         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-         header('Content-Disposition: attachment;filename="' . $filename . '"');
-         header('Cache-Control: max-age=0');
-     
-         $writer->save('php://output');
-     
+        $writer = new Xlsx($spreadsheet);
+        $filename = $sale->code . '.xlsx';
 
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+
+        $writer->save('php://output');
     }
 }

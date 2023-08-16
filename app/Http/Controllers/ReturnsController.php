@@ -21,14 +21,15 @@ class ReturnsController extends Controller
         $returns = Returns::all();
         $sales = Sales::all();
 
-        return view('returns.index',[
+        return view('returns.index', [
             'returns' => $returns,
             'sales' => $sales,
         ]);
     }
+
     public function create(Sales $sale)
     {
-        return view('returns.create',[
+        return view('returns.create', [
             'sale' => $sale
         ]);
     }
@@ -44,7 +45,6 @@ class ReturnsController extends Controller
         }
 
         $products = $request->input('products');
-
 
         $uuid = (string) Str::uuid();
 
@@ -73,7 +73,7 @@ class ReturnsController extends Controller
 
     public function show(Returns $return)
     {
-        return view('returns.show',[
+        return view('returns.show', [
             'return' => $return,
         ]);
     }
@@ -82,10 +82,10 @@ class ReturnsController extends Controller
     {
         $returns = Returns::all();
 
-        $html = view('returns.report',[
+        $html = view('returns.report', [
             'returns' => $returns
         ]);
-         
+
         $pdf = PDF::loadHTML($html);
 
         return $pdf->download('reporte_devoluciones.pdf');
@@ -99,15 +99,15 @@ class ReturnsController extends Controller
         $sheet = $spreadsheet->getActiveSheet();
 
         // Titulos
-        $sheet->setCellValue('A1','Vendedor');
-        $sheet->setCellValue('B1','Fecha');
-        $sheet->setCellValue('C1','Referencia');
-        $sheet->setCellValue('D1','Productos');
-        $sheet->setCellValue('E1','Cliente');
-        
+        $sheet->setCellValue('A1', 'Vendedor');
+        $sheet->setCellValue('B1', 'Fecha');
+        $sheet->setCellValue('C1', 'Referencia');
+        $sheet->setCellValue('D1', 'Productos');
+        $sheet->setCellValue('E1', 'Cliente');
+
         $row = 2;
-        
-        foreach($returns as $return){
+
+        foreach ($returns as $return) {
             $sheet->setCellValue('A' . $row, $return->sale->user->username);
             $sheet->setCellValue('B' . $row, $return->created_at);
             $sheet->setCellValue('C' . $row, $return->code);
@@ -116,19 +116,14 @@ class ReturnsController extends Controller
             $row++;
         }
 
-
         // Crear el archivo y descargarlo
-         $writer = new Xlsx($spreadsheet);
-         $filename = 'reporte_devoluciones.xlsx';
-        
-         header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-         header('Content-Disposition: attachment;filename="' . $filename . '"');
-         header('Cache-Control: max-age=0');
-     
-         $writer->save('php://output');
-     
+        $writer = new Xlsx($spreadsheet);
+        $filename = 'reporte_devoluciones.xlsx';
 
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="' . $filename . '"');
+        header('Cache-Control: max-age=0');
+
+        $writer->save('php://output');
     }
 }
-
-
