@@ -35,11 +35,13 @@ class PurchaseController extends Controller
     {
         // Selecciona todos los proveedores para elegir uno en la visa
         $provedores = Provedor::all();
+        $products = Product::all();
         //devuelve la vista purchase.create
         return view('purchase.create',[
             'provedores' => $provedores,
+            'products' => $products,
         ]);
-  
+   
     }
 
     // Crea un nuevo registro de la compra
