@@ -14,10 +14,14 @@ return new class extends Migration
         Schema::create('sales', function (Blueprint $table) {
             $table->id();
             $table->foreignId('client_id')->constrained()->onDelete('cascade');
+            $table->foreignId('invoice_id')->constrained()->onDelete('cascade');
             $table->string('code');
+            $table->string('status');
+            $table->boolean('pay');
             $table->float('total');
-            $table->unsignedBigInteger('user_id');
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->float('partial_payment');
+            $table->float('pending_payment');
+            $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->timestamps();
         });
     }

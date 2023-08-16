@@ -41,27 +41,6 @@ class Product extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function detalles()
-    {
-        return $this->hasMany(PurchaseDetails::class);
-    }
-
-    public function compras()
-    {
-        return $this->belongsToMany(Compra::class, 'purchase_details', 'product_id', 'purchases_id')
-                    ->withPivot('add_stock');
-    }
-
-    public function sale_detalles()
-    {
-        return $this->hasMany(SaleDetails::class);
-    }
-
-    public function ventas()
-    {
-        return $this->belongsToMany(Sales::class, 'sale_details', 'product_id', 'sales_id')
-                    ->withPivot('quantity');
-    }
 }
 
 

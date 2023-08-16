@@ -34,13 +34,6 @@ class SubcategoryController extends Controller
 
     public function store(Request $request)
     {
-        $this->validate($request, [
-            'name' => 'required|max:255',
-            'code' => 'required|max:10',
-            'description' => 'required|max:255',
-            'picture' => 'required'
-        ]);
-
         // Valida los datos enviados por el usuario
         Subcategory::create([ 
             'name' => $request->name,
@@ -48,7 +41,6 @@ class SubcategoryController extends Controller
             'description' => $request->description,
             'category_id' => $request->category_id,
             'user_id' => auth()->user()->id,
-            'picture' => $request->picture
         ]);
         // Redirige al usuario a la página de listado de subcategorias
 
@@ -89,8 +81,7 @@ class SubcategoryController extends Controller
             'name' => 'required|max:255',
             'code' => 'required|max:10',
             'description' => 'required|max:255',
-            'category_id' => 'required',
-            'picture' => 'required'
+            'category_id' => 'required'
 
         ]);
         // Actualiza la subcategoria
@@ -98,11 +89,10 @@ class SubcategoryController extends Controller
         $subcategory->code = $request->code;
         $subcategory->description = $request->description;
         $subcategory->category_id = $request->category_id;
-        $subcategory->picture = $request->picture;
         //guarda los datos
         $subcategory->save();
         // Redirige al usuario a la página de listado de subcategorias
-        return redirect()->route('subcategory.index');
+        return redirect()->route('category.index');
 
     }
 }

@@ -15,8 +15,11 @@ return new class extends Migration
             $table->id();
             $table->foreignId('provedor_id')->constrained()->onDelete('cascade');
             $table->integer('code');
-            $table->timestamp('date');
+            $table->string('estatus');
             $table->integer('tota');
+            $table->integer('pagado');
+            $table->integer('pendiente');
+            $table->string('estatus_pago');
             $table->timestamps();
         });
     }

@@ -13,4 +13,9 @@ class Invoices extends Model
         'payment_status',
         'status'
     ];
+
+    public function sale()
+    {
+        $this->belongsTo(Sales::class);
+    }
 }
