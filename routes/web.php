@@ -11,11 +11,11 @@ use App\Http\Controllers\UsarioController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProviderController;
 use App\Http\Controllers\CategoryController;
-<<<<<<< HEAD
+
 use App\Http\Controllers\ImportController;
-=======
+
 use App\Http\Controllers\CotizacionController;
->>>>>>> 13c7648caf3a7acca2b96373cc3b65bcf46af53f
+
 use App\Http\Controllers\ProvedorController;
 use App\Http\Controllers\PurchaseController;
 use App\Http\Controllers\QuotesController;
@@ -156,12 +156,15 @@ Route::get('/purchase/{purchase}/edit',[PurchaseController::class,'edit'])->name
 Route::put('/purchase/{purchase}',[PurchaseController::class,'update'])->name('purchase.update');
 Route::get('/purchase/{purchase}',[PurchaseController::class,'show'])->name('purchase.show');
 
-<<<<<<< HEAD
+
 Route::get('/purchasePdf', [PurchaseController::class,'create_pdf'])->name('purchase.create_pdf');
 Route::get('/purchaseXlsx', [PurchaseController::class,'create_xlsx'])->name('purchase.create_xlsx');
 
 Route::post('/purchase/addproduct', [PurchaseController::class, 'addProduct']);
-=======
+
+
+
+
 //Rutas de cotizacion
 Route::get('/cotizacion',[CotizacionController::class,'index'])->name('cotizacion.index');
 Route::get('/cotizacion/create',[CotizacionController::class,'create'])->name('cotizacion.create');
@@ -170,13 +173,13 @@ Route::delete('/cotizacion/{cotizacion}',[CotizacionController::class,'destroy']
 Route::get('/cotizacion/{cotizacion}/edit',[CotizacionController::class,'edit'])->name('cotizacion.edit');
 Route::put('/cotizacion/{cotizacion}',[CotizacionController::class,'update'])->name('cotizacion.update');
 Route::get('/cotizacion/{cotizacion}',[CotizacionController::class,'show'])->name('cotizacion.show');
->>>>>>> 13c7648caf3a7acca2b96373cc3b65bcf46af53f
+
 
 
 //Rutas ventas
 Route::get('/sale',[SalesController::class,'index'])->name('sale.index');
 Route::get('/sale/create',[SalesController::class,'create'])->name('sale.create');
-<<<<<<< HEAD
+
 Route::post('/sale/getProducts', [SalesController::class, 'getProducts']);
 Route::post('/sale', [SalesController::class, 'store']);
 Route::get('/sale/{sale}', [SalesController::class, 'show'])->name('sale.show');
@@ -202,9 +205,7 @@ Route::get('/quotes/create', [QuotesController::class, 'create'])->name('quotes.
 Route::post('/quotes', [QuotesController::class, 'store']);
 Route::get('/quotes/{quote}', [QuotesController::class, 'show'])->name('quotes.show');
 Route::get('/quotes/exportXlsx/{quote}',[QuotesController::class, 'exportXlsx'])->name('quotes.exportXlsx');
-=======
 
->>>>>>> 13c7648caf3a7acca2b96373cc3b65bcf46af53f
 
 Route::post('/imagenes',[ImagesController::class, 'store'])->name('imagenes.store');
 
